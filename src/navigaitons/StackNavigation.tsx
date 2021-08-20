@@ -2,6 +2,7 @@ import CategoriesScreen from '../screens/mainScreens/CategoriesScreen';
 import CityDetails from '../screens/netstedScreens/CityDetails';
 import DestinationDetails from '../screens/netstedScreens/DestinationDetails';
 import DestinationScreen from '../screens/mainScreens/DestinationScreen';
+import GalleryScreen from '../screens/netstedScreens/GalleryScreen';
 import HomeScreen from '../screens/mainScreens/HomeScreen';
 import ListCites from '../screens/mainScreens/CitesScreen';
 import ListToCategory from '../screens/netstedScreens/ListToCategory';
@@ -51,6 +52,12 @@ const StackNavigator = () => {
       <Stack.Screen
         name="cites"
         component={ListCites}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="galleryScreen"
+        component={GalleryScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

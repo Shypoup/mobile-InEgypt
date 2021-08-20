@@ -17,8 +17,9 @@ const BackHeader = (props) => {
                     style={styles.icon}
                 />
             </TouchableOpacity>
-            <Text style={styles.title}>{props.title}</Text>
-        </View>
+            <Text style={styles.title}>{props.title} Gallery</Text>
+            <View />
+        </View >
     );
 };
 const styles = StyleSheet.create({
@@ -28,15 +29,14 @@ const styles = StyleSheet.create({
         backgroundColor: colors.transparentWhite,
         flexDirection: 'row',
         alignItems: 'center',
-        // marginTop: 20
+        justifyContent: 'space-between'
     },
-    middlecomponent: {
-        marginHorizontal: PHONE_WIDTH * 0.16,
-    },
+
     title: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
-        marginStart: '30%'
+        // marginStart: '30%',
+        alignSelf: 'center'
     },
     icon: {
         marginHorizontal: 10,

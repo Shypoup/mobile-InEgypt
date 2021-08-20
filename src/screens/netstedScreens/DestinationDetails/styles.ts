@@ -93,7 +93,12 @@ const styles = StyleSheet.create({
         marginVertical: 30,
         marginHorizontal: 10,
     },
-
+    galleryHeaderSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginEnd: '3%'
+    },
     gallaryImage: {
         width: PHONE_HEIGHT * 0.35,
         height: PHONE_HEIGHT * 0.21,

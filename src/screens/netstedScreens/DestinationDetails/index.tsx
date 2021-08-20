@@ -213,7 +213,12 @@ const DestinationDetails = ({ navigation, route }) => {
 
           {/* Galllary */}
           <View style={styles.sectionContainer}>
-            <Text style={componetsStyles.boldTitle}>Gallary</Text>
+            <View style={styles.galleryHeaderSection}>
+              <Text style={componetsStyles.boldTitle}>Gallery</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('galleryScreen', { title: details.name, gallery: IMAGES })}>
+                <Text style={styles.more}>More</Text>
+              </TouchableOpacity>
+            </View>
             {galleryLoading ? <ActivityIndicator color={colors.mainColor} /> :
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {renderGallary()}
