@@ -1,15 +1,30 @@
 import {
+    I18nManager,
     Image,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 
 import React from 'react';
 import { colors } from '../components/styles';
+import { useTranslation } from 'react-i18next';
 
 const DrawerContent = (props) => {
+    const { t, i18n } = useTranslation()
+
+    const changeLanguage = () => {
+        // if (i18n.language != language) {
+        i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar').then(() => {
+            I18nManager.forceRTL(i18n.language === 'ar')
+            // SplashScreen.show()
+            // RNRestart.Restart();
+
+        })
+    }
+
+
 
 
     return (
@@ -17,49 +32,51 @@ const DrawerContent = (props) => {
             <View style={styles.header} >
                 <Image source={require('../assets/logoBlack.png')} style={styles.appIcon} />
             </View>
-            <Text style={styles.title}>INEgypt</Text>
+            <Text style={styles.title}>InEgypt</Text>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => props.navigation.navigate('destinations')}>
-                    <Text style={styles.option}>Destinations</Text>
+                    <Text style={styles.option}>{t('Destinations')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => props.navigation.navigate('categories')}>
-                    <Text style={styles.option}>Categories</Text>
+                    <Text style={styles.option}>{t('Categories')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => props.navigation.navigate('cites')}>
-                    <Text style={styles.option}>Cites</Text>
+                    <Text style={styles.option}>{t('Cities')}</Text>
                 </TouchableOpacity>
             </View>
 
             {/* Setting */}
-            <Text style={styles.title}>SETTING</Text>
+            <Text style={styles.title}>{t('Setting')}</Text>
             <View style={styles.section}>
-                <TouchableOpacity >
-                    <Text style={styles.option}>عربي</Text>
+                <TouchableOpacity
+                    onPress={changeLanguage}
+                >
+                    <Text style={styles.option}>{t('Language')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity >
-                    <Text style={styles.option}>Dark</Text>
+                    <Text style={styles.option}>{t('dark')}</Text>
                 </TouchableOpacity>
 
             </View>
 
             {/* Policy */}
-            <Text style={styles.title}>ABOUT US</Text>
+            <Text style={styles.title}>{t('About Us')}</Text>
             <View style={styles.section}>
                 <TouchableOpacity >
-                    <Text style={styles.option}>Privacy & Policy</Text>
+                    <Text style={styles.option}>{t('Privacy & Policy')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity >
-                    <Text style={styles.option}>About us</Text>
+                    <Text style={styles.option}>{t('About Us')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity >
-                    <Text style={styles.option}>Rate us</Text>
+                    <Text style={styles.option}>{t('Rate Us')}</Text>
                 </TouchableOpacity>
 
             </View>
 
             <View style={styles.section}>
 
-                <Text style={styles.version}>App Version 1.0.0(1)</Text>
+                <Text style={styles.version}>{t('Version No.')} 1.0.0</Text>
 
             </View>
         </View>

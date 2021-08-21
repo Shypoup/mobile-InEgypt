@@ -10,8 +10,10 @@ import { fetchAttractions } from '../../../apis/destinations';
 import { fetchCityDestinations } from '../../../apis/cites';
 import { fetchSpots } from '../../../apis/destinations';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const DestinationScreen = ({ route }) => {
+  const { t, i18n } = useTranslation();
   // const { id } = route.params;
   const [selectedIndex, setIndex] = useState(0);
   const [view, setView] = useState(1);
@@ -20,24 +22,25 @@ const DestinationScreen = ({ route }) => {
   const [attractions, setAttractions] = useState(null);
   const [attractionLoading, setAttractionLoading] = useState(true);
   const [spots, setSpots] = useState([]);
-  const [spotsLoading, setSpotsLoading] = useState(true)
+  const [spotsLoading, setSpotsLoading] = useState(true);
 
   const listAttractions = async () => {
-    const response = await fetchAttractions('en')
+    const response = await fetchAttractions(i18n.language)
     setAttractions(response)
     setAttractionLoading(false)
 
   }
+
   const listSpots = async () => {
-    const response = await fetchSpots('en')
+    const response = await fetchSpots(i18n.language)
     setSpots(response)
     setSpotsLoading(false)
 
   }
 
   const listCityDestinations = async () => {
-    const response = await fetchCityDestinations(route.params.id, 'en')
-    console.log(response)
+    const response = await fetchCityDestinations(route.params.id, i18n.language)
+
     setAttractions(response.attraction);
     setAttractionLoading(false);
     setSpots(response.spot);
@@ -83,10 +86,10 @@ const DestinationScreen = ({ route }) => {
   };
   const component1 = () => (
     <View>
-      <Text>Attraction</Text>
+      <Text>{t('Attraction')}</Text>
     </View>
   );
-  const component2 = () => <Text>Spots</Text>;
+  const component2 = () => <Text>{t('Spots')}</Text>;
 
   const buttons = [{ element: component1 }, { element: component2 }];
 
@@ -136,7 +139,7 @@ const DestinationScreen = ({ route }) => {
             />
           }
           right={
-            <View style={{ flexDirection: 'row' }}>
+            <View style={styles.gridIconSection}>
               <TouchableOpacity onPress={changeView} style={styles.iconContainer}>
                 {renderIcon()}
               </TouchableOpacity>
@@ -153,7 +156,7 @@ const DestinationScreen = ({ route }) => {
         <View style={styles.searchSection}>
           <SearchBar
             autoFocus={true}
-            placeholder="Search"
+            placeholder={t("Search")}
             onChangeText={setSearch}
             value={search}
             containerStyle={styles.searchAreaResult}
@@ -167,7 +170,7 @@ const DestinationScreen = ({ route }) => {
             }}
           />
           <TouchableOpacity onPress={() => setShowSearch(false)}>
-            <Text style={styles.cancelSearch}>Cancel</Text>
+            <Text style={styles.cancelSearch}>{t('Cancel')}</Text>
           </TouchableOpacity>
         </View>
       }
@@ -196,16 +199,21 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 7,
   },
+  gridIconSection: {
+    flexDirection: 'row',
+    marginHorizontal: '5%'
+  },
 
   //Search
   searchSection: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
-    alignItems: 'center'
+    backgroundColor: colors.light,
+    alignItems: 'center',
+
   },
   searchAreaResult: {
     width: '80%',
-    backgroundColor: '#fff',
+    backgroundColor: colors.light,
     borderBottomWidth: 0,
     borderTopWidth: 0,
     marginLeft: 10,

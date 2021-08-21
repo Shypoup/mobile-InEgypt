@@ -4,8 +4,10 @@ import { colors, componetsStyles } from '../styles';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const AppHeader = (props) => {
+  const { i18n } = useTranslation();
   const navigation = useNavigation();
   return (
     <Header
@@ -14,10 +16,10 @@ const AppHeader = (props) => {
       leftComponent={
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon
-            name="keyboard-arrow-left"
+            name={i18n.language === 'ar' ? 'keyboard-arrow-right' : 'keyboard-arrow-left'}
             size={35}
             color={colors.secondIcon}
-            style={{ marginHorizontal: 10 }}
+            style={{ marginHorizontal: 10, marginTop: '10%' }}
           />
         </TouchableOpacity>
       }

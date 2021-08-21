@@ -17,6 +17,7 @@ import React from 'react';
 import styles from './styles'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // import Geolocation from '@react-native-community/geolocation';
 
@@ -29,7 +30,7 @@ import { useState } from 'react';
 
 // Geolocation.getCurrentPosition(info => console.log(info));
 const HomeScreen = ({ navigation }) => {
-
+  const { t, i18n } = useTranslation();
   const [attractions, setAttractions] = useState([])
   const [spots, setSpots] = useState([])
   const [cites, setCites] = useState([])
@@ -146,7 +147,7 @@ const HomeScreen = ({ navigation }) => {
 
 
   const listRecommendedAtt = async () => {
-    const response = await fetchRecommendedAttractions('en')
+    const response = await fetchRecommendedAttractions(i18n.language)
     setAttractions(response)
     setAttractionsLoading(false)
 
@@ -154,19 +155,19 @@ const HomeScreen = ({ navigation }) => {
 
   const listTrendySpots = async () => {
     setSpotsLoading(true)
-    const response = await fetchTrendySpots('en')
+    const response = await fetchTrendySpots(i18n.language)
     setSpots(response)
     setSpotsLoading(false)
   }
 
   const listTopCites = async () => {
-    const response = await fetchTopCites('en')
+    const response = await fetchTopCites(i18n.language)
     setCites(response)
     setCitesLoading(false)
   }
 
   const listTopCategories = async () => {
-    const response = await fetchTopCategories('en')
+    const response = await fetchTopCategories(i18n.language)
     setCategories(response)
     setCategoriesLoading(false)
   }
@@ -300,13 +301,13 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Attractions */}
         {attractionsLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
-          <HorizontalSection title="Attraction Of The Month" renderFunction={() => renderAttractionsOfMonth()} link="More" />
+          <HorizontalSection title={t('Attraction Of The Month')} renderFunction={() => renderAttractionsOfMonth()} link={t('More')} />
         }
         {/* Spots */}
         {/* {spots && spots.length > 0 ? */}
         <>
           {spotsLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
-            <HorizontalSection title="Trendy Spots" renderFunction={renderTrendySpots} link="More" />
+            <HorizontalSection title={t("Trendy Spots")} renderFunction={renderTrendySpots} link={t('More')} />
           }
         </>
         {/* : null} */}
@@ -323,7 +324,7 @@ const HomeScreen = ({ navigation }) => {
         {citesLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
           <>
             {cites && cites.length > 0 ?
-              <HorizontalSection title="Explore Cites" renderFunction={() => renderCites()} link="All Cites" />
+              <HorizontalSection title={t("Explore Cities")} renderFunction={() => renderCites()} link={t('All Cities')} />
               : null}
           </>
         }

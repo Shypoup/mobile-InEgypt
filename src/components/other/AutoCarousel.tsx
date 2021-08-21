@@ -2,17 +2,22 @@ import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { PHONE_HEIGHT, PHONE_WIDTH, colors } from '../styles';
 import React, { useState } from 'react';
 
+import { ActivityIndicator } from 'react-native';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { fetchAds } from '../../apis/home';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const AutoCarousel = () => {
+  const { i18n } = useTranslation();
+  const [loading, setLoading] = useState(true)
   const [ads, setAds] = useState([])
 
   const listAds = async () => {
 
-    const response = await fetchAds('en')
+    const response = await fetchAds(i18n.language)
     setAds(response)
+    setLoading(false)
 
   }
   useEffect(() => {
@@ -32,7 +37,7 @@ const AutoCarousel = () => {
           style={styles.itemContainer}
 
         >
-          <Text style={styles.label}>{item.title}</Text>
+          <Text style={styles.label}>{item.content}</Text>
         </ImageBackground>
       )
     })
@@ -42,12 +47,14 @@ const AutoCarousel = () => {
     <View>
       <SwiperFlatList autoplay autoplayDelay={2} autoplayLoop index={0}
         paginationActiveColor='#303c64' paginationDefaultColor={colors.gray}
-      // horizontal contentContainerStyle={styles.itemContainer}
-      >
 
-        {/* <View style={styles.itemContainer}> */}
-        {renderAds()}
-        {/* </View> */}
+      >
+        {loading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
+          <>
+            {renderAds()}
+          </>
+        }
+
       </SwiperFlatList>
     </View>
   );
@@ -75,6 +82,9 @@ const styles = StyleSheet.create({
     height: PHONE_WIDTH * 0.02,
     marginHorizontal: 2
   },
+  loader: {
+    marginVertical: PHONE_HEIGHT * 0.2
+  }
 });
 
 export default AutoCarousel;

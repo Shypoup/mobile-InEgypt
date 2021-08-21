@@ -21,11 +21,11 @@ const Destinations = (props) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       key={item.id}
-    // onPress={() =>
-    //   navigation.navigate('destinationDetails', {
-    //     item: item.id,
-    //   })
-    // }
+      onPress={() =>
+        navigation.navigate('destinationDetails', {
+          id: item.id,
+        })
+      }
     >
       <FullWidthCard
         key={item.id}
@@ -67,6 +67,7 @@ const Destinations = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.light,
+    alignItems: 'center'
 
   },
   cityName: {

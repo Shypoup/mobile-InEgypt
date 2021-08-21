@@ -4,14 +4,16 @@ import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const HeaderButtons = (props) => {
+  const { i18n } = useTranslation();
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Icon
-          name="keyboard-arrow-left"
+          name={i18n.language === 'ar' ? 'keyboard-arrow-right' : 'keyboard-arrow-left'}
           size={35}
           color={colors.mainColor}
           style={styles.icon}

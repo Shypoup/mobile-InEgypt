@@ -34,6 +34,7 @@ export const componetsStyles = StyleSheet.create({
     paddingHorizontal: 10,
     alignItems: 'center',
     alignContent: 'center',
+    flexDirection: 'row'
 
   },
   title: {
