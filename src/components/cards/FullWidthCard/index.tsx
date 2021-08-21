@@ -2,7 +2,6 @@ import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { PHONE_HEIGHT, PHONE_WIDTH, colors } from '../../styles';
 import React, { useEffect, useState } from 'react';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Icon } from 'react-native-elements'
 
 export const FullWidthCard = (props) => {

@@ -67,7 +67,8 @@ const Destinations = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.light,
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%'
 
   },
   cityName: {

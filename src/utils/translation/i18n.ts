@@ -1,3 +1,4 @@
+import { I18nManager } from 'react-native';
 import React from 'react';
 import ar from './arabic';
 import en from './english';
@@ -19,8 +20,7 @@ i18n
                 translation: ar
             }
         },
-        lng: 'ar', // if you're using a language detector, do not define the lng option
-        fallbackLng: 'ar',
+        lng: I18nManager.isRTL ? 'ar' : 'en',
 
         interpolation: {
             escapeValue: false

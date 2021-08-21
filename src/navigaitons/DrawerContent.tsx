@@ -1,13 +1,16 @@
 import {
     I18nManager,
     Image,
+    ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View
 } from 'react-native';
 
+import RNRestart from 'react-native-restart';
 import React from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import { colors } from '../components/styles';
 import { useTranslation } from 'react-i18next';
 
@@ -15,11 +18,11 @@ const DrawerContent = (props) => {
     const { t, i18n } = useTranslation()
 
     const changeLanguage = () => {
-        // if (i18n.language != language) {
+
         i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar').then(() => {
             I18nManager.forceRTL(i18n.language === 'ar')
-            // SplashScreen.show()
-            // RNRestart.Restart();
+            SplashScreen.show()
+            RNRestart.Restart();
 
         })
     }
@@ -28,7 +31,7 @@ const DrawerContent = (props) => {
 
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.header} >
                 <Image source={require('../assets/logoBlack.png')} style={styles.appIcon} />
             </View>
@@ -79,7 +82,7 @@ const DrawerContent = (props) => {
                 <Text style={styles.version}>{t('Version No.')} 1.0.0</Text>
 
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -94,8 +97,9 @@ const styles = StyleSheet.create({
     },
     appIcon: {
         width: 80,
-        height: 80,
-        alignSelf: 'center'
+        height: 60,
+        alignSelf: 'center',
+        marginTop: '5%'
     },
     title: {
         color: colors.secondText,

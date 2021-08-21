@@ -258,7 +258,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.section}>
         <View style={styles.titleSection}>
           <Text style={componetsStyles.title}> {props.title}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate(props.to || 'home')}>
             <Text style={styles.more}>{props.link}</Text>
           </TouchableOpacity>
         </View>
@@ -301,13 +301,19 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Attractions */}
         {attractionsLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
-          <HorizontalSection title={t('Attraction Of The Month')} renderFunction={() => renderAttractionsOfMonth()} link={t('More')} />
+          <HorizontalSection title={t('Attraction Of The Month')}
+            renderFunction={() => renderAttractionsOfMonth()} link={t('More')}
+            to='destinations'
+          />
         }
         {/* Spots */}
         {/* {spots && spots.length > 0 ? */}
         <>
           {spotsLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
-            <HorizontalSection title={t("Trendy Spots")} renderFunction={renderTrendySpots} link={t('More')} />
+            <HorizontalSection title={t("Trendy Spots")}
+              renderFunction={renderTrendySpots} link={t('More')}
+              to='destinations'
+            />
           }
         </>
         {/* : null} */}
@@ -324,7 +330,10 @@ const HomeScreen = ({ navigation }) => {
         {citesLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
           <>
             {cites && cites.length > 0 ?
-              <HorizontalSection title={t("Explore Cities")} renderFunction={() => renderCites()} link={t('All Cities')} />
+              <HorizontalSection title={t("Explore Cities")}
+                renderFunction={() => renderCites()} link={t('All Cities')}
+
+                to="cites" />
               : null}
           </>
         }

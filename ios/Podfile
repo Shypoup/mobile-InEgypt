@@ -12,6 +12,10 @@ target 'InEgypt' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-restart', :path => '../node_modules/react-native-restart'
+
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'InEgyptTests' do
     inherit! :complete
     # Pods for testing

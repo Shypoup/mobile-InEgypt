@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     image: {
-        width: PHONE_WIDTH,
+        width: '100%',
         height: PHONE_HEIGHT,
     },
     backButton: {
