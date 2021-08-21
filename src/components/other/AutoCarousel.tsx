@@ -13,7 +13,7 @@ const AutoCarousel = () => {
 
     const response = await fetchAds('en')
     setAds(response)
-    console.log(response)
+
   }
   useEffect(() => {
     listAds()

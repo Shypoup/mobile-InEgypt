@@ -29,7 +29,7 @@ const GalleryScreen = ({ route }) => {
     }
     return (
         <>
-            <BackHeader title={title} />
+            <BackHeader title={title + ' Gallery'} />
             <FlatList
                 contentContainerStyle={styles.container}
                 data={gallery}

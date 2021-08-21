@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 14,
         paddingVertical: 10,
-        width: PHONE_WIDTH * 0.22,
-        height: PHONE_WIDTH * 0.2,
+        width: PHONE_WIDTH * 0.27,
+        height: PHONE_WIDTH * 0.19,
         padding: '2%'
 
     },

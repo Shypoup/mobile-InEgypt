@@ -17,7 +17,7 @@ const BackHeader = (props) => {
                     style={styles.icon}
                 />
             </TouchableOpacity>
-            <Text style={styles.title}>{props.title} Gallery</Text>
+            <Text style={styles.title}>{props.title} </Text>
             <View />
         </View >
     );

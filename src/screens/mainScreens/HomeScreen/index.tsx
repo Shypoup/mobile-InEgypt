@@ -8,12 +8,12 @@ import {
   View
 } from 'react-native';
 import { OverviewCard, OverviewCity } from '../../../components/cards';
+import { colors, componetsStyles } from '../../../components/styles';
 import { fetchAds, fetchRecommendedAttractions, fetchTopCategories, fetchTopCites, fetchTrendySpots } from '../../../apis/home';
 
 import AutoCarousel from '../../../components/other/AutoCarousel';
 import { Icon } from 'react-native-elements';
 import React from 'react';
-import { componetsStyles } from '../../../components/styles';
 import styles from './styles'
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -287,29 +287,29 @@ const HomeScreen = ({ navigation }) => {
         <AutoCarousel />
 
         {/* categories */}
-        {categories && categories.length > 0 ?
-          <View style={styles.iconSection}>
-            {categoriesLoading ? <ActivityIndicator color="000" size="large" /> :
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} >
-                {renderCategories()}
+        {/* {categories && categories.length > 0 ? */}
+        <View style={styles.iconSection}>
+          {categoriesLoading ? <ActivityIndicator color={colors.mainColor} size="small" /> :
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} >
+              {renderCategories()}
 
-              </ScrollView>
-            }
-          </View>
-          : null}
+            </ScrollView>
+          }
+        </View>
+        {/* : null} */}
 
         {/* Attractions */}
-        {attractionsLoading ? <ActivityIndicator color="000" size="large" style={styles.loader} /> :
+        {attractionsLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
           <HorizontalSection title="Attraction Of The Month" renderFunction={() => renderAttractionsOfMonth()} link="More" />
         }
         {/* Spots */}
-        {spots && spots.length > 0 ?
-          <>
-            {spotsLoading ? <ActivityIndicator color="000" size="large" style={styles.loader} /> :
-              <HorizontalSection title="Trendy Spots" renderFunction={renderTrendySpots} link="More" />
-            }
-          </>
-          : null}
+        {/* {spots && spots.length > 0 ? */}
+        <>
+          {spotsLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
+            <HorizontalSection title="Trendy Spots" renderFunction={renderTrendySpots} link="More" />
+          }
+        </>
+        {/* : null} */}
         {/* <MapView
           initialRegion={{
             latitude: 37.78825,
@@ -320,7 +320,7 @@ const HomeScreen = ({ navigation }) => {
           style={{ width: 420, height: 250 }}
         /> */}
         {/* Cites */}
-        {citesLoading ? <ActivityIndicator color="000" size="large" style={styles.loader} /> :
+        {citesLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
           <>
             {cites && cites.length > 0 ?
               <HorizontalSection title="Explore Cites" renderFunction={() => renderCites()} link="All Cites" />
