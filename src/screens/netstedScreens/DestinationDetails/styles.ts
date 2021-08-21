@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     overlayHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingRight: 8,
+        paddingHorizontal: '5%',
         borderBottomColor: colors.gray,
         borderBottomWidth: 1,
         paddingBottom: 13,

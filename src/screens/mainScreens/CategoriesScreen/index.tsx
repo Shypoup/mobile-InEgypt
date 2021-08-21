@@ -15,34 +15,10 @@ import { CategoryCard } from '../../../components/cards';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import SearchBar from 'react-native-elements/dist/searchbar/SearchBar-ios';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
-const DIMENSIONS = [
-  {
-    id: 0,
-    name: 'Historical',
-  },
-  {
-    id: 1,
-    name: 'Entertaining',
-  },
-  {
-    id: 2,
-    name: 'Mosque',
-  },
-  {
-    id: 3,
-    name: 'Medical',
-  },
-  {
-    id: 4,
-    name: 'Muesuem',
-  },
-  {
-    id: 5,
-    name: 'Nature',
-  },
-];
 const CategoriesScreen = ({ navigation }) => {
+  const { t, i18n } = useTranslation();
   const [search, setSearch] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const [categories, setCategories] = useState(null);
@@ -51,12 +27,12 @@ const CategoriesScreen = ({ navigation }) => {
   const [activitesLoading, setActivitesLoading] = useState(true);
 
   const listCategories = async () => {
-    const response = await fetchCategories('en');
+    const response = await fetchCategories(i18n.language);
     setCategories(response);
     setCategoriesLoading(false);
   }
   const listActivites = async () => {
-    const response = await fetchActivites('en');
+    const response = await fetchActivites(i18n.language);
     setActivites(response);
     setActivitesLoading(false);
   }
@@ -89,7 +65,7 @@ const CategoriesScreen = ({ navigation }) => {
       {!showSearch ?
         <AppHeader
           middle={
-            <Text style={styles.pageTitle}>Categories</Text>
+            <Text style={styles.pageTitle}>{t('Categories')}</Text>
           }
           right={
 
@@ -104,7 +80,7 @@ const CategoriesScreen = ({ navigation }) => {
         <View style={styles.searchSection}>
           <SearchBar
             autoFocus={true}
-            placeholder="Search"
+            placeholder={t("Search")}
             onChangeText={setSearch}
             value={search}
             containerStyle={styles.searchAreaResult}
@@ -116,20 +92,20 @@ const CategoriesScreen = ({ navigation }) => {
 
           />
           <TouchableOpacity onPress={() => setShowSearch(false)}>
-            <Text style={styles.cancelSearch}>Cancel</Text>
+            <Text style={styles.cancelSearch}>{t('Cancel')}</Text>
           </TouchableOpacity>
         </View>
       }
 
       <ScrollView>
         <View style={styles.headerContainer}>
-          <Text style={styles.header}>Categories</Text>
+          <Text style={styles.header}>{t('Categories')}</Text>
         </View>
         {categoriesLoading ? <ActivityIndicator color={colors.mainColor} style={styles.loader} /> :
           <View style={styles.container}>{renderCategories()}</View>
         }
         <View style={styles.headerContainer}>
-          <Text style={styles.header}>Activites</Text>
+          <Text style={styles.header}>{t('Activities')}</Text>
         </View>
         {activitesLoading ? <ActivityIndicator color={colors.mainColor} style={styles.loader} /> :
           <View style={styles.container}>{renderActivites()}</View>

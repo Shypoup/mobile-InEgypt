@@ -20,9 +20,11 @@ import Review from '../../../components/other/Review';
 import { noReviews } from '../../../constants/images'
 import styles from './styles'
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const IMAGES = []
 const DestinationDetails = ({ navigation, route }) => {
+  const { t, i18n } = useTranslation();
   const [overlayVisible, setOverlayVisibility] = useState(false);
   const [details, setDetails] = useState(null)
   const [detailsLoading, setDetailsLoading] = useState(true);
@@ -37,7 +39,7 @@ const DestinationDetails = ({ navigation, route }) => {
   };
   const { id } = route.params;
   const getDestinationDetails = async () => {
-    const response = await fetchDestinationDetails(id, 'en')
+    const response = await fetchDestinationDetails(id, i18n.language)
     setDetails(response)
     setDetailsLoading(false)
   }
@@ -111,7 +113,7 @@ const DestinationDetails = ({ navigation, route }) => {
   return (
 
     <ScrollView>
-      {detailsLoading ? <ActivityIndicator size="large" color={colors.mainColor} style={styles.loader} /> :
+      {detailsLoading ? <ActivityIndicator size="small" color={colors.mainColor} style={styles.loader} /> :
         <View style={styles.container}>
 
           <ImageBackground style={styles.bannerImage} source={{ uri: details.poster }}>
@@ -120,12 +122,12 @@ const DestinationDetails = ({ navigation, route }) => {
               onPress={() => navigation.pop()}>
               <Icon
                 type="material"
-                name="keyboard-arrow-left"
+                name={i18n.language === 'ar' ? 'keyboard-arrow-right' : 'keyboard-arrow-left'}
                 size={35}
-                color={colors.secondIcon}
+                color={colors.light}
               />
             </TouchableOpacity>
-            <Text style={styles.destinationType}>{details.type === "0" ? <>Attraction</> : <>Spot</>}</Text>
+            <Text style={styles.destinationType}>{details.type === "0" ? <>{t('Attraction')}</> : <>{t('Spot')}</>}</Text>
           </ImageBackground>
 
 
@@ -172,7 +174,7 @@ const DestinationDetails = ({ navigation, route }) => {
                       style={styles.headerIcon}
 
                     />
-                    <Text style={styles.mainAttributes}>{details.ticket_price.egyptions} EGP / Egyptians</Text>
+                    <Text style={styles.mainAttributes}>{details.ticket_price.egyptions} {t('EGP')}</Text>
                   </View>
                 }
               </>
@@ -182,10 +184,10 @@ const DestinationDetails = ({ navigation, route }) => {
           {/* Description */}
 
           <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={componetsStyles.boldTitle}>Description</Text>
+            <Text style={componetsStyles.boldTitle}>{t('Description')}</Text>
             <Text style={componetsStyles.article}>{details.description.substring(1, 300 || details.description.length / 2)}
 
-              <Text style={styles.more}>...More</Text></Text>
+              <Text style={styles.more}>...{t('More')}</Text></Text>
           </TouchableOpacity>
           <Overlay
             overlayStyle={styles.overlayContainer}
@@ -194,14 +196,14 @@ const DestinationDetails = ({ navigation, route }) => {
             <ScrollView>
               <View style={styles.overlayHeader}>
                 <View>
-                  <Text style={componetsStyles.bigTitle}>Description</Text>
+                  <Text style={componetsStyles.bigTitle}>{t('Description')}</Text>
                   <Text style={componetsStyles.title}>{details.name}</Text>
                 </View>
                 <TouchableOpacity onPress={toggleOverlay}>
                   <Icon
                     name="x"
                     type="feather"
-                    size={35}
+                    size={32}
                     color={colors.mainColor}
                     style={styles.overlayExit}
                   />
@@ -214,9 +216,9 @@ const DestinationDetails = ({ navigation, route }) => {
           {/* Galllary */}
           <View style={styles.sectionContainer}>
             <View style={styles.galleryHeaderSection}>
-              <Text style={componetsStyles.boldTitle}>Gallery</Text>
+              <Text style={componetsStyles.boldTitle}>{t('Gallery')}</Text>
               <TouchableOpacity onPress={() => navigation.navigate('galleryScreen', { title: details.name, gallery: IMAGES })}>
-                <Text style={styles.more}>More</Text>
+                <Text style={styles.more}>{t('More')}</Text>
               </TouchableOpacity>
             </View>
             {galleryLoading ? <ActivityIndicator color={colors.mainColor} /> :
@@ -242,14 +244,14 @@ const DestinationDetails = ({ navigation, route }) => {
           {/* Reviews */}
 
           <View style={styles.sectionContainer}>
-            <Text style={componetsStyles.boldTitle}>Rating & Reviews</Text>
+            <Text style={componetsStyles.boldTitle}>{t('Rating & Reviews')}</Text>
             {reviewsLoading ? <ActivityIndicator size="large" color={colors.mainColor} /> :
               <>
                 {reviews.count === 0 ?
                   <View style={styles.emptyReviewsSection}>
                     <Image source={noReviews} style={styles.noReviewsImage} />
-                    <Text style={styles.noReviewTitle}>No Reviews!</Text>
-                    <Text style={styles.noReviewDesc}>Help the community and share your review</Text>
+                    <Text style={styles.noReviewTitle}>{t('No Reviews!')}</Text>
+                    <Text style={styles.noReviewDesc}>{t('Help the community and share your thoughts')}</Text>
                   </View>
                   :
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -260,58 +262,53 @@ const DestinationDetails = ({ navigation, route }) => {
             }
           </View>
           <TouchableOpacity style={styles.addReviewButton}>
-            <Text style={styles.addReviewButtonText}>Add a review</Text>
+            <Text style={styles.addReviewButtonText}>{t('Add a review')}</Text>
           </TouchableOpacity>
-          {/* <Button
-            title="Add a review"
-            type="outline"
-            buttonStyle={styles.button}
-            titleStyle={{ color: colors.mainColor }}
-          /> */}
+
 
           {/* Tickets */}
           {details.ticket_price &&
             <>
-              <Text style={componetsStyles.boldTitle}>Ticket Prices :</Text>
+              <Text style={componetsStyles.boldTitle}>{t('Ticket Prices')}:</Text>
               {details.ticket_price.egyptions &&
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>Egyptionans: </Text>
+                  <Text style={styles.priceTitle}>{t("Egyptions: ")} </Text>
                   <Text style={componetsStyles.article}>
-                    {details.ticket_price.egyptions} EGP
+                    {details.ticket_price.egyptions} {t('EGP')}
                   </Text>
                 </View>
               }
               {details.ticket_price.students &&
 
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>Students: </Text>
+                  <Text style={styles.priceTitle}>{t('Students:')} </Text>
                   <Text style={componetsStyles.article}>
-                    {details.ticket_price.students} EGP
+                    {details.ticket_price.students} {t('EGP')}
                   </Text>
                 </View>
               }
               {details.ticket_price.foreign &&
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>Forigns: </Text>
+                  <Text style={styles.priceTitle}>{t('Forigns: ')} </Text>
                   <Text style={componetsStyles.article}>
-                    {details.ticket_price.foreign} EGP
+                    {details.ticket_price.foreign} {t('EGP')}
                   </Text>
                 </View>
               }
               {details.ticket_price.foreignStudents &&
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>Forigns Students: </Text>
+                  <Text style={styles.priceTitle}>{t('Forign Students:')} </Text>
                   <Text style={componetsStyles.article}>
-                    {details.ticket_price.foreignStudents} EGP
+                    {details.ticket_price.foreignStudents} {t('EGP')}
                   </Text>
                 </View>
               }
 
               {details.ticket_price.caption &&
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>Note: </Text>
+                  <Text style={styles.priceTitle}></Text>
                   <Text style={componetsStyles.article}>
-                    {details.ticket_price.caption} EGP
+                    {details.ticket_price.caption} {t('EGP')}
                   </Text>
                 </View>
               }

@@ -5,17 +5,17 @@ import React, { useEffect, useState } from 'react';
 
 import BackHeader from '../../../components/headers/BackHeader';
 import { fetchCites } from '../../../apis/cites';
-import { fetchToCategory } from '../../../apis/categories';
+import { useTranslation } from 'react-i18next';
 
 const ListCites = ({ route, navigation }) => {
-
+  const { t, i18n } = useTranslation();
   const [destinations, setDestination] = useState([]);
   const [loading, setLoading] = useState(true)
 
 
 
   const listDestinations = async () => {
-    const response = await fetchCites('en')
+    const response = await fetchCites(i18n.language)
     setDestination(response)
     setLoading(false)
 
@@ -42,9 +42,9 @@ const ListCites = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <BackHeader title="Cites" />
+      <BackHeader title={t("Cities")} />
 
-      {loading ? <ActivityIndicator color="#000" size="large" style={styles.laoder} /> :
+      {loading ? <ActivityIndicator color="#000" size="small" style={styles.laoder} /> :
 
 
         <FlatList

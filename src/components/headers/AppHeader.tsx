@@ -19,7 +19,7 @@ const AppHeader = (props) => {
             name={i18n.language === 'ar' ? 'keyboard-arrow-right' : 'keyboard-arrow-left'}
             size={35}
             color={colors.secondIcon}
-            style={{ marginHorizontal: 10, marginTop: '10%' }}
+            style={{ marginHorizontal: 10, marginTop: '5%' }}
           />
         </TouchableOpacity>
       }

@@ -7,8 +7,10 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { Modal } from 'react-native';
 import { colors } from '../../../components/styles';
 import styles from './styles';
+import { useTranslation } from 'react-i18next';
 
 const GalleryScreen = ({ route }) => {
+    const { t, i18n } = useTranslation();
     const { title, gallery } = route.params;
     const [openImageViewer, setOpenImageViewer] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
@@ -29,7 +31,7 @@ const GalleryScreen = ({ route }) => {
     }
     return (
         <>
-            <BackHeader title={title + ' Gallery'} />
+            <BackHeader title={i18n.language === 'ar' ? `صور ${title} ` : `${title} Gallery`} />
             <FlatList
                 contentContainerStyle={styles.container}
                 data={gallery}

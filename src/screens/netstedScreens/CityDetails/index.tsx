@@ -2,31 +2,26 @@ import {
   ActivityIndicator,
   ImageBackground,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { Linecard, OverviewCard } from '../../../components/cards';
-import {
-  PHONE_HEIGHT,
-  PHONE_WIDTH,
-  colors,
-  componetsStyles,
-} from '../../../components/styles';
+import React, { useEffect, useState } from 'react';
 import { fetchCityAttractions, fetchCityDetails, fetchCitySpots } from '../../../apis/cites';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import React from 'react';
-import { attractions } from '../../../constants/api';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import {
+  colors,
+} from '../../../components/styles';
+import styles from './styles';
+import { useTranslation } from 'react-i18next';
 
 const CityDetails = ({ route, navigation }) => {
   const { id } = route.params;
-
+  const { t, i18n } = useTranslation();
   const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [attractions, setAttractions] = useState(null);
@@ -36,14 +31,14 @@ const CityDetails = ({ route, navigation }) => {
 
 
   const getCityDetails = async () => {
-    const response = await fetchCityDetails(id, 'en');
+    const response = await fetchCityDetails(id, i18n.language);
     setDetails(response);
 
     setLoading(false)
   }
 
   const getCityAttractions = async () => {
-    const response = await fetchCityAttractions(id, 'en');
+    const response = await fetchCityAttractions(id, i18n.language);
     setAttractions(response);
 
     setAttractionsLoading(false)
@@ -51,7 +46,7 @@ const CityDetails = ({ route, navigation }) => {
   const getCitySpots = async () => {
     let spotsColumn = [];
     let spotsReshaped = [];
-    const response = await fetchCitySpots(id, 'en');
+    const response = await fetchCitySpots(id, i18n.language);
     if (response != null) {
 
 
@@ -148,7 +143,7 @@ const CityDetails = ({ route, navigation }) => {
               style={styles.backButton}
               onPress={() => navigation.pop()}>
               <MaterialIcons
-                name="keyboard-arrow-left"
+                name={i18n.language === 'ar' ? 'keyboard-arrow-right' : 'keyboard-arrow-left'}
                 size={35}
                 color={colors.light}
               />
@@ -160,7 +155,7 @@ const CityDetails = ({ route, navigation }) => {
                 <Text style={styles.cityName}>{details.city}</Text>
                 <View style={styles.mapContainer}>
                   <MaterialIcons name="map" size={34} color={colors.light} />
-                  <Text style={styles.mapText}>Get Map</Text>
+                  <Text style={styles.mapText}>{t('Get Map')}</Text>
                 </View>
               </View>
               <View style={styles.infoContainer}>
@@ -201,16 +196,16 @@ const CityDetails = ({ route, navigation }) => {
           </ImageBackground>
 
           <View style={styles.whiteContainer}>
-            <Text style={styles.title}>Overview</Text>
+            <Text style={styles.title}>{t('Overview')}</Text>
             <Text style={styles.overViewText}>
               {details.overview}
             </Text>
 
             <View style={styles.destinationHeader}>
-              <Text style={styles.title}>Destination</Text>
+              <Text style={styles.title}>{t('Destinations')}</Text>
 
               <TouchableOpacity onPress={() => navigation.navigate('destinations', { id, city: details.city })}>
-                <Text style={styles.seeAll}>See all</Text>
+                <Text style={styles.seeAll}>{t('See All')}</Text>
               </TouchableOpacity>
             </View>
 
@@ -218,7 +213,7 @@ const CityDetails = ({ route, navigation }) => {
               <>
                 {attractions === null ? null :
                   <>
-                    <Text style={styles.secondTitle}>Attractions</Text>
+                    <Text style={styles.secondTitle}>{t('Attractions')}</Text>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                       {renderAttractions()}
                     </ScrollView>
@@ -234,7 +229,7 @@ const CityDetails = ({ route, navigation }) => {
 
                 {spots === null ? null :
                   <>
-                    <Text style={styles.secondTitle}>Spots</Text>
+                    <Text style={styles.secondTitle}>{t('Spots')}</Text>
                     <ScrollView
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
@@ -252,89 +247,5 @@ const CityDetails = ({ route, navigation }) => {
     </ScrollView>
   );
 };
-const styles = StyleSheet.create({
-  image: {
-    width: PHONE_WIDTH,
-    height: PHONE_HEIGHT,
-  },
-  backButton: {
-    flexDirection: 'row',
-    margin: 15,
-  },
-  backtext: {
-    color: colors.light,
-    fontSize: 15,
-    alignSelf: 'center',
-  },
-  contentAtImageContainer: {
-    marginHorizontal: 20,
-  },
-  cityNameContainer: {
-    marginTop: PHONE_HEIGHT * 0.62,
 
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomColor: colors.light,
-    borderBottomWidth: 0.6,
-    paddingBottom: 50,
-  },
-  cityName: {
-    fontSize: 35,
-    fontWeight: 'bold',
-    marginHorizontal: 8,
-    color: colors.light,
-  },
-  mapContainer: {
-    alignItems: 'center',
-  },
-  mapText: {
-    color: colors.light,
-  },
-  infoContainer: {
-    marginVertical: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  infoSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  title: {
-    ...componetsStyles.bigTitle,
-    marginHorizontal: '5%',
-    marginTop: '2%'
-  },
-  secondTitle: {
-    ...componetsStyles.secondTitle,
-    marginHorizontal: '5%',
-  },
-  infoText: {
-    marginHorizontal: 5,
-    color: colors.light,
-    fontSize: 14,
-  },
-  whiteContainer: {
-    backgroundColor: colors.light,
-  },
-  overViewText: {
-    marginHorizontal: '7%',
-    marginVertical: 10,
-  },
-  destinationHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  seeAll: {
-    color: colors.mainColor,
-    marginHorizontal: '5%',
-    marginVertical: 18,
-  },
-  spotsConatiner: {
-    marginHorizontal: 25,
-  },
-  loader: {
-    marginVertical: '40%'
-  }
-});
 export default CityDetails;

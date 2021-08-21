@@ -5,8 +5,10 @@ import React, { useEffect, useState } from 'react';
 import BackHeader from '../../../components/headers/BackHeader';
 import { FullWidthCard } from '../../../components/cards';
 import { fetchToCategory } from '../../../apis/categories';
+import { useTranslation } from 'react-i18next';
 
 const ListToCategory = ({ route, navigation }) => {
+  const { i18n } = useTranslation();
   const { id, title } = route.params;
   const [destinations, setDestination] = useState([]);
   const [loading, setLoading] = useState(true)
@@ -14,7 +16,7 @@ const ListToCategory = ({ route, navigation }) => {
 
 
   const listDestinations = async () => {
-    const response = await fetchToCategory(id, 'en')
+    const response = await fetchToCategory(id, i18n.language)
     setDestination(response)
     setLoading(false)
 
@@ -50,11 +52,11 @@ const ListToCategory = ({ route, navigation }) => {
     <View style={styles.container}>
       <BackHeader />
       <Text style={styles.title}>{title}</Text>
-      {loading ? <ActivityIndicator color="#000" size="large" style={styles.laoder} /> :
+      {loading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.laoder} /> :
 
 
         <FlatList
-          // contentContainerStyle={styles.container}
+
           data={destinations}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
