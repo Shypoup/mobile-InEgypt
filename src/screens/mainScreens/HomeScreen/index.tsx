@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 import { OverviewCard, OverviewCity } from '../../../components/cards';
-import { fetchRecommendedAttractions, fetchTopCategories, fetchTopCites, fetchTrendySpots } from '../../../apis/home';
+import { fetchAds, fetchRecommendedAttractions, fetchTopCategories, fetchTopCites, fetchTrendySpots } from '../../../apis/home';
 
 import AutoCarousel from '../../../components/other/AutoCarousel';
 import { Icon } from 'react-native-elements';
@@ -29,6 +29,7 @@ import { useState } from 'react';
 
 // Geolocation.getCurrentPosition(info => console.log(info));
 const HomeScreen = ({ navigation }) => {
+
   const [attractions, setAttractions] = useState([])
   const [spots, setSpots] = useState([])
   const [cites, setCites] = useState([])

@@ -1,32 +1,53 @@
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { PHONE_HEIGHT, PHONE_WIDTH, colors } from '../styles';
+import React, { useState } from 'react';
 
-import React from 'react';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import { fetchAds } from '../../apis/home';
+import { useEffect } from 'react';
 
 const AutoCarousel = () => {
+  const [ads, setAds] = useState([])
 
+  const listAds = async () => {
 
+    const response = await fetchAds('en')
+    setAds(response)
+    console.log(response)
+  }
+  useEffect(() => {
+    listAds()
+  }, [])
+
+  const renderAds = () => {
+
+    return ads.map((item) => {
+      return (
+        <ImageBackground
+
+          source={{
+            uri: item.poster,
+
+          }}
+          style={styles.itemContainer}
+
+        >
+          <Text style={styles.label}>{item.title}</Text>
+        </ImageBackground>
+      )
+    })
+  }
 
   return (
     <View>
       <SwiperFlatList autoplay autoplayDelay={2} autoplayLoop index={0}
         paginationActiveColor='#303c64' paginationDefaultColor={colors.gray}
+      // horizontal contentContainerStyle={styles.itemContainer}
       >
-      
-        <View style={styles.itemContainer}>
-          <ImageBackground
 
-            source={{
-              uri:
-                'https://d2tyltutevw8th.cloudfront.net/media/image/egypt-south-1200-1603212169.png',
-            }}
-            style={styles.image}
-
-          >
-            <Text style={styles.label}>Hello to InEgypt app</Text>
-          </ImageBackground>
-        </View>
+        {/* <View style={styles.itemContainer}> */}
+        {renderAds()}
+        {/* </View> */}
       </SwiperFlatList>
     </View>
   );
@@ -36,14 +57,14 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: PHONE_WIDTH,
     height: PHONE_HEIGHT * 0.25,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
     backgroundColor: colors.secondColor,
   },
   image: { height: '100%', width: '100%', justifyContent: 'flex-end' },
   label: {
     backgroundColor: colors.transparentWhite,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     paddingHorizontal: 10,
     paddingVertical: 5
