@@ -91,3 +91,23 @@ export const fetchDestinationGallery = (id) => {
     return response
 }
 
+
+export const addReviewRequest = (id, username,rate, review) => {
+    const response = axios.post(baseURL + 'addreview' , { id ,username,rate, review }, {
+        headers: {
+            token: "m35"
+        }
+
+    })
+        .then((response) => {
+          
+            return true;
+
+            
+
+        }).catch((error) => {
+            
+            return false
+        })
+    return response
+}

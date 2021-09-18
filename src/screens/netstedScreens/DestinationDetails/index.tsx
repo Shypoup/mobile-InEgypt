@@ -66,22 +66,9 @@ const DestinationDetails = ({ navigation, route }) => {
     getDestinationDetails()
     listGallery()
     listReviews()
-  }, [])
+  }, [navigation])
 
-  // const images = [{
-  //   // Simplest usage.
-  //   url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
 
-  //   width: 200,
-  //   height: 200,
-  //   // Optional, if you know the image size, you can set the optimization performance
-
-  //   // You can pass props to <Image />.
-  //   props: {
-  //     // headers: ...
-  //   }
-  // }
-  // ]
 
   const renderGallary = () => {
     return gallery.map((item, i) => {
@@ -261,7 +248,7 @@ const DestinationDetails = ({ navigation, route }) => {
               </>
             }
           </View>
-          <TouchableOpacity style={styles.addReviewButton}>
+          <TouchableOpacity style={styles.addReviewButton} onPress={() => navigation.navigate('addReview' ,{id , image:details.poster,name:details.name})}>
             <Text style={styles.addReviewButtonText}>{t('Add a review')}</Text>
           </TouchableOpacity>
 

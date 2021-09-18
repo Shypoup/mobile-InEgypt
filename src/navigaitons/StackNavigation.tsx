@@ -1,3 +1,4 @@
+import AddReview from '../screens/netstedScreens/AddReview';
 import CategoriesScreen from '../screens/mainScreens/CategoriesScreen';
 import CityDetails from '../screens/netstedScreens/CityDetails';
 import DestinationDetails from '../screens/netstedScreens/DestinationDetails';
@@ -58,6 +59,11 @@ const StackNavigator = () => {
       <Stack.Screen
         name="galleryScreen"
         component={GalleryScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="addReview"
+        component={AddReview}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
