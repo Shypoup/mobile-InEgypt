@@ -38,6 +38,18 @@ export const fetchTrendySpots = (language) => {
     return response
 }
 
+export const fetchAroundYou = (lat:any,long:any,language) => {
+    const response = axios.post(baseURL + 'around/' + language , {lat,long})
+        .then((response) => {
+            // console.log(response.data.data)
+            return response.data.data
+
+        }).catch((error) => {
+            // console.log(error)
+        })
+    return response
+}
+
 
 export const fetchTopCites = (language) => {
     const response = axios.get(baseURL + 'recommendcity/' + language)

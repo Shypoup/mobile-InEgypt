@@ -9,141 +9,96 @@ import {
 } from 'react-native';
 import { OverviewCard, OverviewCity } from '../../../components/cards';
 import { colors, componetsStyles } from '../../../components/styles';
-import { fetchAds, fetchRecommendedAttractions, fetchTopCategories, fetchTopCites, fetchTrendySpots } from '../../../apis/home';
+import { fetchAroundYou, fetchRecommendedAttractions, fetchTopCategories, fetchTopCites, fetchTrendySpots } from '../../../apis/home';
 
 import AutoCarousel from '../../../components/other/AutoCarousel';
+import Geolocation from '@react-native-community/geolocation';
 import { Icon } from 'react-native-elements';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import React from 'react';
 import styles from './styles'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// import Geolocation from '@react-native-community/geolocation';
-
-// import MapView from 'react-native-maps';
-
-
-
-
-
-
-// Geolocation.getCurrentPosition(info => console.log(info));
 const HomeScreen = ({ navigation }) => {
   const { t, i18n } = useTranslation();
   const [attractions, setAttractions] = useState([])
   const [spots, setSpots] = useState([])
+  const [around, setAround] = useState([])
   const [cites, setCites] = useState([])
+
   const [categories, setCategories] = useState([])
   const [attractionsLoading, setAttractionsLoading] = useState(true)
   const [categoriesLoading, setCategoriesLoading] = useState(true)
   const [spotsLoading, setSpotsLoading] = useState(true)
+  const [aroundLoading, setAroundLoading] = useState(true)
   const [citesLoading, setCitesLoading] = useState(true)
   const [
     currentLongitude,
     setCurrentLongitude
-  ] = useState('...');
+  ] = useState('');
   const [
     currentLatitude,
     setCurrentLatitude
-  ] = useState('...');
-  const [
-    locationStatus,
-    setLocationStatus
   ] = useState('');
 
-  // useEffect(() => {
-  //   const requestLocationPermission = async () => {
 
-  //     try {
-  //       const granted = await PermissionsAndroid.request(
-  //         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  //         {
-  //           title: 'Location Access Required',
-  //           message: 'This App needs to Access your location',
-  //         },
-  //       );
-  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //         //To Check, If Permission is granted
-  //         getOneTimeLocation();
-  //         subscribeLocationLocation();
-  //       } else {
-  //         setLocationStatus('Permission Denied');
-  //       }
-  //     } catch (err) {
-  //       console.warn(err);
-  //     }
-  //   }
+  async function requestLocationPermission() 
+  {
+    
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'InEgypt',
+          message: t("locationAlertDescription"),
+          buttonNeutral: t('askLater'),
+          buttonNegative: t('Cancel'),
+          buttonPositive: t('OK'),
+        },
+      )
+      if (granted != PermissionsAndroid.RESULTS.GRANTED) {
+        alert(t("locationAlertSetting"))
+      }else{
+        RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+          interval: 10000,
+          fastInterval: 5000,
+        })
+          .then((data) => {
+            getOneTimeLocation()
+          })
+          .catch((err) => {
+           
+          });
+      }
+   
+  }
 
-  //   requestLocationPermission();
-  //   return () => {
+  const getOneTimeLocation = () => {
 
-  //   };
-  // }, []);
+    Geolocation.getCurrentPosition(
+  
+      
+      (position) => {
+        const currentLongitude =
+          JSON.stringify(position.coords.longitude);
+        const currentLatitude =
+          JSON.stringify(position.coords.latitude);
+        setCurrentLongitude(currentLongitude);
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+     
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 30000,
+        maximumAge: 1000
+      },
+    );
+  };
 
-  // const getOneTimeLocation = () => {
-  //   setLocationStatus('Getting Location ...');
-  //   Geolocation.getCurrentPosition(
-  //     //Will give you the current location
-  //     (position) => {
-  //       setLocationStatus('You are Here');
-
-  //       //getting the Longitude from the location json
-  //       const currentLongitude =
-  //         JSON.stringify(position.coords.longitude);
-
-  //       //getting the Latitude from the location json
-  //       const currentLatitude =
-  //         JSON.stringify(position.coords.latitude);
-
-  //       //Setting Longitude state
-  //       setCurrentLongitude(currentLongitude);
-
-  //       //Setting Longitude state
-  //       setCurrentLatitude(currentLatitude);
-  //     },
-  //     (error) => {
-  //       setLocationStatus(error.message);
-  //     },
-  //     {
-  //       enableHighAccuracy: false,
-  //       timeout: 30000,
-  //       maximumAge: 1000
-  //     },
-  //   );
-  // };
-
-  // const subscribeLocationLocation = () => {
-  //   const watchID = Geolocation.watchPosition(
-  //     (position) => {
-  //       //Will give you the location on location change
-
-  //       setLocationStatus('You are Here');
-  //       console.log(position);
-
-  //       //getting the Longitude from the location json        
-  //       const currentLongitude =
-  //         JSON.stringify(position.coords.longitude);
-
-  //       //getting the Latitude from the location json
-  //       const currentLatitude =
-  //         JSON.stringify(position.coords.latitude);
-
-  //       //Setting Longitude state
-  //       setCurrentLongitude(currentLongitude);
-
-  //       //Setting Latitude state
-  //       setCurrentLatitude(currentLatitude);
-  //     },
-  //     (error) => {
-  //       setLocationStatus(error.message);
-  //     },
-  //     {
-  //       enableHighAccuracy: false,
-  //       maximumAge: 1000
-  //     },
-  //   );
-  // };
+ 
 
 
   const listRecommendedAtt = async () => {
@@ -154,10 +109,19 @@ const HomeScreen = ({ navigation }) => {
   }
 
   const listTrendySpots = async () => {
-    setSpotsLoading(true)
+   
     const response = await fetchTrendySpots(i18n.language)
     setSpots(response)
     setSpotsLoading(false)
+  }
+
+  const listArround= async () => {
+   if(currentLatitude != '' && currentLongitude != ''){
+    
+    const response = await fetchAroundYou(currentLatitude,currentLongitude,i18n.language)
+    setAround(response)
+    setAroundLoading(false)
+   }
   }
 
   const listTopCites = async () => {
@@ -174,11 +138,17 @@ const HomeScreen = ({ navigation }) => {
 
 
   useEffect(() => {
+    requestLocationPermission()
     listTopCategories()
     listRecommendedAtt()
     listTrendySpots()
     listTopCites()
   }, [])
+  useEffect(() => {
+    listArround()
+  }, [currentLongitude ,currentLatitude])
+
+
 
   // Render attractions
   const renderAttractionsOfMonth = () => {
@@ -209,6 +179,22 @@ const HomeScreen = ({ navigation }) => {
             })
           }>
           <OverviewCard name={item.name} image={item.poster} city={item.city} />
+        </TouchableOpacity>
+      );
+    });
+  };
+//render around ypu
+    const renderAroundYou = () => {
+    return around.map((item) => {
+      return (
+        <TouchableOpacity
+          key={Math.random()}
+          onPress={() =>
+            navigation.navigate('destinationDetails', {
+              id: item.id,
+            })
+          }>
+          <OverviewCard name={item.name} image={item.poster} city={t('about') +" "+ Math.floor(+item.distance) +" " + t('km')} />
         </TouchableOpacity>
       );
     });
@@ -307,7 +293,7 @@ const HomeScreen = ({ navigation }) => {
           />
         }
         {/* Spots */}
-        {/* {spots && spots.length > 0 ? */}
+     
         <>
           {spotsLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
             <HorizontalSection title={t("Trendy Spots")}
@@ -316,16 +302,26 @@ const HomeScreen = ({ navigation }) => {
             />
           }
         </>
-        {/* : null} */}
-        {/* <MapView
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          style={{ width: 420, height: 250 }}
-        /> */}
+
+           {/* Around yoy */}
+          {around &&around.length === 0 ?
+          <>
+          <Image source={require('../../../assets/noAround.png')}
+            style={styles.noArroundImage}
+          />
+          <Text style={styles.noArroundText}>{t('No Destinations Around You!')}</Text>
+          </>
+        :
+           <>
+          {aroundLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
+            <HorizontalSection title={t("Around You")}
+              renderFunction={renderAroundYou} link={t('More')}
+              to='destinations'
+            />
+          }
+        </>
+}
+        
         {/* Cites */}
         {citesLoading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
           <>

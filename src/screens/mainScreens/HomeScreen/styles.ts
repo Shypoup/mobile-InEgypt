@@ -76,6 +76,16 @@ const styles = StyleSheet.create({
     },
     loader: {
         marginVertical: PHONE_HEIGHT * 0.1
+    },
+    noArroundImage:{
+        width: '95%',
+        height: 180
+    },
+    noArroundText:{
+        alignSelf:'center',
+        fontWeight:'bold',
+        marginTop:'2%',
+        marginBottom:'5%',
     }
 });
 

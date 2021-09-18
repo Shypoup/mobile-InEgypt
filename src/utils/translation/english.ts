@@ -47,7 +47,8 @@ const en = {
     "Maps": "Maps",
     "Google Maps": "Google Maps",
     "locationDisabled": "Location Disabled",
-    "directionAlertDescription": "Please enable your location from settings to be able provide a direction routes",
+    "directionAlertDescription": "Please enable your location  to be able provide a direction routes",
+    "locationAlertSetting": "Please enable your location from settings to be able provide a direction routes",
     "OK": "OK",
     " km": " km",
     "ADD A REVIEW": "ADD A REVIEW",
@@ -98,7 +99,7 @@ const en = {
 
 
     "All": "All",
-    "locationAlertDescription": "Please enable your location from settings to be able provide your Around destinations",
+    "locationAlertDescription": "Please enable your location to be able provide your Around destinations",
     "RESULTS": "RESULTS",
     "RADIUS": "RADIUS",
 
@@ -134,7 +135,8 @@ const en = {
     "In": "In ",
     'dark': 'Dark Mode',
     'light': 'Light Mode',
-
+    'askLater':'Ask Me Later',
+    'about':'about'
 
 
 };
