@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   ImageBackground,
+  Linking,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -153,10 +154,16 @@ const CityDetails = ({ route, navigation }) => {
             <View style={styles.contentAtImageContainer}>
               <View style={styles.cityNameContainer}>
                 <Text style={styles.cityName}>{details.city}</Text>
-                <View style={styles.mapContainer}>
-                  <MaterialIcons name="map" size={34} color={colors.light} />
+                <TouchableOpacity style={styles.mapContainer}
+                  onPress={()=>
+                  
+                    Linking.openURL(`geo://?q=${details.latitude},${details.longitude}`)
+                  }
+                
+                >
+                  <MaterialIcons name="location-pin" size={34} color={colors.light} />
                   <Text style={styles.mapText}>{t('Get Map')}</Text>
-                </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.infoContainer}>
                 <View style={styles.infoSection}>
