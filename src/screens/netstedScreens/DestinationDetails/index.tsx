@@ -22,7 +22,6 @@ import styles from './styles'
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const IMAGES = []
 const DestinationDetails = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
   const [overlayVisible, setOverlayVisibility] = useState(false);
@@ -30,7 +29,7 @@ const DestinationDetails = ({ navigation, route }) => {
   const [detailsLoading, setDetailsLoading] = useState(true);
   const [reviews, setReviews] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true);
-  const [gallery, setGallery] = useState(null)
+  const [gallery, setGallery] = useState([])
   const [galleryLoading, setGalleryLoading] = useState(true);
   const [openImageViewer, setOpenImageViewer] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
@@ -44,20 +43,20 @@ const DestinationDetails = ({ navigation, route }) => {
     setDetailsLoading(false)
   }
   const listGallery = async () => {
+    let images=[];
     const response = await fetchDestinationGallery(id)
-
-    setGallery(response)
-    setGalleryLoading(false)
     for (let i = 0; i < response.length; i++) {
-      IMAGES.push({ url: response[i].img })
-
+      images.push({url:response[i].img})
     }
+    setGallery(images)
+
+    setGalleryLoading(false)
   }
 
   const listReviews = async () => {
 
     const response = await fetchReviews(id)
-    console.log(response)
+
     setReviews(response)
     setReviewsLoading(false)
 
@@ -78,11 +77,12 @@ const DestinationDetails = ({ navigation, route }) => {
           setOpenImageViewer(true)
         }
         }>
-          <Image key={i} style={styles.gallaryImage} source={{ uri: item.img }} />
+          <Image key={i} style={styles.gallaryImage} source={{uri:item.url}} />
         </TouchableOpacity>
       );
     });
   };
+  
   const renderReviews = () => {
     return reviews.review.map((review, i) => {
 
@@ -204,7 +204,7 @@ const DestinationDetails = ({ navigation, route }) => {
           <View style={styles.sectionContainer}>
             <View style={styles.galleryHeaderSection}>
               <Text style={componetsStyles.boldTitle}>{t('Gallery')}</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('galleryScreen', { title: details.name, gallery: IMAGES })}>
+              <TouchableOpacity onPress={() => navigation.navigate('galleryScreen', { title: details.name, gallery })}>
                 <Text style={styles.more}>{t('More')}</Text>
               </TouchableOpacity>
             </View>
@@ -217,7 +217,7 @@ const DestinationDetails = ({ navigation, route }) => {
                       <Icon name='close' type='ant-design' size={25} color={colors.light} />
                     </TouchableOpacity>
                     : null}
-                  <ImageViewer index={imageIndex} imageUrls={IMAGES} enableSwipeDown={true} onSwipeDown={() => setOpenImageViewer(false)}
+                  <ImageViewer index={imageIndex} imageUrls={gallery} enableSwipeDown={true} onSwipeDown={() => setOpenImageViewer(false)}
 
                   />
 
@@ -259,7 +259,7 @@ const DestinationDetails = ({ navigation, route }) => {
               <Text style={componetsStyles.boldTitle}>{t('Ticket Prices')}:</Text>
               {details.ticket_price.egyptions &&
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>{t("Egyptions: ")} </Text>
+                  <Text style={styles.priceTitle}>{t("Egyptions")}: </Text>
                   <Text style={componetsStyles.article}>
                     {details.ticket_price.egyptions} {t('EGP')}
                   </Text>
@@ -268,7 +268,7 @@ const DestinationDetails = ({ navigation, route }) => {
               {details.ticket_price.students &&
 
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>{t('Students:')} </Text>
+                  <Text style={styles.priceTitle}>{t('Students')}: </Text>
                   <Text style={componetsStyles.article}>
                     {details.ticket_price.students} {t('EGP')}
                   </Text>
@@ -276,7 +276,7 @@ const DestinationDetails = ({ navigation, route }) => {
               }
               {details.ticket_price.foreign &&
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>{t('Forigns: ')} </Text>
+                  <Text style={styles.priceTitle}>{t('Forigns')}: </Text>
                   <Text style={componetsStyles.article}>
                     {details.ticket_price.foreign} {t('EGP')}
                   </Text>
@@ -284,7 +284,7 @@ const DestinationDetails = ({ navigation, route }) => {
               }
               {details.ticket_price.foreignStudents &&
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>{t('Forign Students:')} </Text>
+                  <Text style={styles.priceTitle}>{t('Forign Students')}: </Text>
                   <Text style={componetsStyles.article}>
                     {details.ticket_price.foreignStudents} {t('EGP')}
                   </Text>

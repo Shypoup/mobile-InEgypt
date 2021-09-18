@@ -72,12 +72,12 @@ const ar = {
 
 
     // Ticket
-    "Egyptions: ": "مصريين: ",
-    "Adults: ": "بالغين: ",
-    "Students: ": "طلبه: ",
-    "Forigns: ": "اجانب: ",
-    "Forign Students: ": "طلبه اجانب: ",
-    " per ticket": "للتذكره ",
+    "Egyptions": "مصريين: ",
+    "Adults": "بالغين: ",
+    "Students": "طلبه: ",
+    "Forigns": "اجانب: ",
+    "Forign Students": "طلبه اجانب: ",
+    "per ticket":"للتذكره ",
     "EGP": " جنيه",
 
     // Categories Localization
