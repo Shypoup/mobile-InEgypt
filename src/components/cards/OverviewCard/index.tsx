@@ -25,6 +25,7 @@ export const OverviewCard = props => {
       fontWeight: '900',
       alignSelf: 'flex-end',
       margin: 8,
+      backgroundColor: 'rgba(0,0,0,0.04)',
     },
     name: {
       fontSize: 15,
