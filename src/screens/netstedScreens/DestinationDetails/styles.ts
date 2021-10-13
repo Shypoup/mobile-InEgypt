@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: '2.5%',
         marginEnd: '4%',
-        alignItems: 'flex-start',
+        alignItems: 'center',
 
     },
     time: {

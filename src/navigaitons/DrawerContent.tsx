@@ -11,12 +11,15 @@ import {
 import RNRestart from 'react-native-restart';
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen';
+import {ThemeContext} from '../../App';
 import {colors} from '../components/styles';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const DrawerContent = props => {
   const {t, i18n} = useTranslation();
-
+  const {setTheme, theme} = React.useContext(ThemeContext);
+  const {colors} = useTheme();
   const changeLanguage = () => {
     i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar').then(() => {
       I18nManager.forceRTL(i18n.language === 'ar');
@@ -24,9 +27,53 @@ const DrawerContent = props => {
       RNRestart.Restart();
     });
   };
-
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      // marginBottom: 60,
+    },
+    header: {
+      height: 90,
+    },
+    appIcon: {
+      width: 80,
+      height: 60,
+      alignSelf: 'center',
+      marginTop: '5%',
+    },
+    title: {
+      color: colors.secondText,
+      marginVertical: 10,
+      marginHorizontal: '11%',
+    },
+    section: {
+      marginHorizontal: '10%',
+      padding: 10,
+      borderRadius: 10,
+      marginBottom: 20,
+    },
+    option: {
+      color: colors.mainText,
+      fontSize: 16,
+      fontWeight: '400',
+      marginVertical: 8,
+      marginHorizontal: 4,
+      borderBottomWidth: 0.5,
+      paddingBottom: 5,
+      borderBottomColor: colors.mediumGray,
+    },
+    version: {
+      fontSize: 16,
+      fontWeight: '400',
+      marginVertical: 2,
+      marginHorizontal: 4,
+      color: colors.gray,
+      alignSelf: 'center',
+    },
+  });
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[styles.container, {backgroundColor: colors.mainBackground}]}>
       <View style={styles.header}>
         <Image
           source={require('../assets/logoBlack.png')}
@@ -54,7 +101,8 @@ const DrawerContent = props => {
         <TouchableOpacity onPress={changeLanguage}>
           <Text style={styles.option}>{t('Language')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setTheme(theme === 'Light' ? 'Dark' : 'Light')}>
           <Text style={styles.option}>{t('dark')}</Text>
         </TouchableOpacity>
         <TouchableOpacity>
@@ -68,49 +116,5 @@ const DrawerContent = props => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginBottom: 60,
-  },
-  header: {
-    height: 90,
-  },
-  appIcon: {
-    width: 80,
-    height: 60,
-    alignSelf: 'center',
-    marginTop: '5%',
-  },
-  title: {
-    color: colors.secondText,
-    marginVertical: 10,
-    marginHorizontal: '11%',
-  },
-  section: {
-    marginHorizontal: '10%',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  option: {
-    fontSize: 16,
-    fontWeight: '400',
-    marginVertical: 8,
-    marginHorizontal: 4,
-    borderBottomWidth: 0.5,
-    paddingBottom: 5,
-    borderBottomColor: colors.mediumGray,
-  },
-  version: {
-    fontSize: 16,
-    fontWeight: '400',
-    marginVertical: 2,
-    marginHorizontal: 4,
-    color: colors.gray,
-    alignSelf: 'center',
-  },
-});
 
 export default DrawerContent;

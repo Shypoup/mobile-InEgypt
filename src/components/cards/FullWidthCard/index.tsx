@@ -4,8 +4,10 @@ import React, {useEffect, useState} from 'react';
 
 import {Icon} from 'react-native-elements';
 import {fetchTemperature} from '../../../apis/wheather';
+import {useTheme} from '@react-navigation/native';
 
 export const FullWidthCard = props => {
+  const {colors} = useTheme();
   const [width, setWidth] = useState(PHONE_WIDTH * 0.95);
   const [hight, setHight] = useState(PHONE_HEIGHT * 0.25);
   const [font, setFont] = useState(18);
@@ -59,6 +61,7 @@ export const FullWidthCard = props => {
       fontWeight: 'bold',
       marginHorizontal: font * 0.5,
       marginVertical: font * 0.25,
+      color: colors.mainText,
     },
     kindContainer: {
       flexDirection: 'row',

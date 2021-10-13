@@ -4,9 +4,11 @@ import React, {useEffect, useState} from 'react';
 import {FullWidthCard} from '../../../components/cards';
 import {colors} from '../../../components/styles';
 import {useNavigation} from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const Destinations = props => {
+  const {colors} = useTheme();
   const [view, setView] = useState(props.view);
   const navigation = useNavigation();
 
@@ -47,7 +49,10 @@ const Destinations = props => {
       )}
 
       <FlatList
-        contentContainerStyle={styles.container}
+        contentContainerStyle={[
+          styles.container,
+          {backgroundColor: colors.mainBackground},
+        ]}
         data={props.data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
@@ -61,7 +66,6 @@ const Destinations = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light,
     alignItems: 'center',
     width: '100%',
   },

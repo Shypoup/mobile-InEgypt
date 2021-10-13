@@ -3,10 +3,45 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 
 import React from 'react';
 import {colors} from '../styles';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const MapComponent = props => {
+  const {colors} = useTheme();
   const {t} = useTranslation();
+  const styles = StyleSheet.create({
+    container: {
+      height: 250,
+    },
+    headerSection: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginHorizontal: '5%',
+      marginBottom: '2%',
+      alignItems: 'center',
+    },
+    header: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: colors.mainText,
+    },
+    showText: {
+      color: colors.linkText,
+    },
+    mapContainer: {
+      height: 200,
+      width: '95%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 35,
+      marginHorizontal: '3%',
+    },
+    map: {
+      ...StyleSheet.absoluteFillObject,
+      borderRadius: 35,
+      alignSelf: 'center',
+    },
+  });
   return (
     <View style={styles.container}>
       <View style={styles.headerSection}>
@@ -39,38 +74,5 @@ const MapComponent = props => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: 250,
-  },
-  headerSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: '5%',
-    marginBottom: '2%',
-    alignItems: 'center',
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  showText: {
-    color: colors.linkText,
-  },
-  mapContainer: {
-    height: 200,
-    width: '95%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 35,
-    marginHorizontal: '3%',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: 35,
-    alignSelf: 'center',
-  },
-});
 
 export default MapComponent;

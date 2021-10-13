@@ -2,6 +2,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 
 export const PHONE_WIDTH = Dimensions.get('window').width;
 export const PHONE_HEIGHT = Dimensions.get('window').height;
+
 export const colors = {
   mainColor: '#2c87f0',
   secondColor: '#f3ebe3',
@@ -26,6 +27,34 @@ export const colors = {
   mainIcon: '#000',
   secondIcon: '#2c87f0',
 };
+
+export const darkColors = {
+  
+  mainColor: '#2c87f0',
+  secondColor: '#f3ebe3',
+  gray: '#788087',
+  light: '#FFFFFF',
+  lightGray: '#eceded',
+  mediumGray: '#D3D3D3',
+  dark: '#000',
+  error: 'red',
+  transparentGray: 'rgba(120,120,120, 0.4)',
+  transparentWhite: 'rgba(255,255,255,0.65)',
+  //Text
+  mainText: '#000',
+  secondText: '#788087',
+  linkText: '#2c87f0',
+
+  //background
+  mainBackground: '#000000',
+  secondBackground: '#788087',
+
+  //icons
+  mainIcon: '#000',
+  secondIcon: '#2c87f0',
+  
+};
+
 
 export const componetsStyles = StyleSheet.create({
   appBar: {

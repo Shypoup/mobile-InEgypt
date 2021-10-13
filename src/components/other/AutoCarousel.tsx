@@ -72,7 +72,7 @@ const AutoCarousel = () => {
       <View style={styles.carsouelContainer}>
         {loading ? (
           <ActivityIndicator
-            size="large"
+            size="small"
             color={colors.mainColor}
             style={styles.loader}
           />

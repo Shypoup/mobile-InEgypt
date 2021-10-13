@@ -9,12 +9,15 @@ import {
 import {PHONE_HEIGHT, colors} from '../../../components/styles';
 import React, {useEffect, useState} from 'react';
 
+import AppHeader from '../../../components/headers/AppHeader';
 import BackHeader from '../../../components/headers/BackHeader';
 import {FullWidthCard} from '../../../components/cards';
 import {fetchToCategory} from '../../../apis/categories';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const ListToCategory = ({route, navigation}) => {
+  const {colors} = useTheme();
   const {i18n} = useTranslation();
   const {id, title} = route.params;
   const [destinations, setDestination] = useState([]);
@@ -48,11 +51,28 @@ const ListToCategory = ({route, navigation}) => {
       />
     </TouchableOpacity>
   );
-
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.mainBackground,
+      flex: 1,
+      alignSelf: 'center',
+      alignItems: 'center',
+    },
+    laoder: {
+      marginVertical: PHONE_HEIGHT * 0.3,
+    },
+    title: {
+      fontWeight: 'bold',
+      fontSize: 20,
+      marginHorizontal: '5%',
+      marginBottom: '2%',
+      alignSelf: 'flex-start',
+    },
+  });
   return (
     <View style={styles.container}>
-      <BackHeader />
-      <Text style={styles.title}>{title}</Text>
+      <AppHeader />
+      <Text style={[styles.title, {color: colors.mainText}]}>{title}</Text>
       {loading ? (
         <ActivityIndicator
           color={colors.mainColor}
@@ -72,22 +92,4 @@ const ListToCategory = ({route, navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.light,
-    flex: 1,
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
-  laoder: {
-    marginVertical: PHONE_HEIGHT * 0.3,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginHorizontal: '5%',
-    marginBottom: '2%',
-    alignSelf: 'flex-start',
-  },
-});
 export default ListToCategory;

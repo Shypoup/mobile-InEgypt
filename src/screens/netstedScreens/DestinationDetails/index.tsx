@@ -19,12 +19,15 @@ import {ActivityIndicator} from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import MapComponent from '../../../components/other/MapComponent';
 import Review from '../../../components/other/Review';
+import {color} from 'react-native-reanimated';
 import {noReviews} from '../../../constants/images';
 import styles from './styles';
 import {useEffect} from 'react';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const DestinationDetails = ({navigation, route}) => {
+  const {colors} = useTheme();
   const {t, i18n} = useTranslation();
   const [overlayVisible, setOverlayVisibility] = useState(false);
   const [details, setDetails] = useState(null);
@@ -95,7 +98,7 @@ const DestinationDetails = ({navigation, route}) => {
     });
   };
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: colors.mainBackground}}>
       {detailsLoading ? (
         <ActivityIndicator
           size="small"
@@ -103,7 +106,8 @@ const DestinationDetails = ({navigation, route}) => {
           style={styles.loader}
         />
       ) : (
-        <View style={styles.container}>
+        <View
+          style={[styles.container, {backgroundColor: colors.mainBackground}]}>
           <ImageBackground
             style={styles.bannerImage}
             source={{uri: details.poster}}>
@@ -127,8 +131,14 @@ const DestinationDetails = ({navigation, route}) => {
           </ImageBackground>
 
           {/* Title */}
-          <View style={styles.headerSection}>
-            <Text style={styles.nameHeader}>{details.name}</Text>
+          <View
+            style={[
+              styles.headerSection,
+              {backgroundColor: colors.secondBackground},
+            ]}>
+            <Text style={[styles.nameHeader, {color: colors.mainText}]}>
+              {details.name}
+            </Text>
             {/* time */}
             <View style={styles.horizontalSection}>
               <Icon
@@ -148,7 +158,7 @@ const DestinationDetails = ({navigation, route}) => {
             <View style={styles.horizontalSection}>
               <Icon
                 type="font-awesome"
-                name="location-arrow"
+                name="map-marker"
                 size={18}
                 color={colors.gray}
                 style={styles.headerIcon}
@@ -180,8 +190,10 @@ const DestinationDetails = ({navigation, route}) => {
           {/* Description */}
 
           <TouchableOpacity onPress={toggleOverlay}>
-            <Text style={componetsStyles.boldTitle}>{t('Description')}</Text>
-            <Text style={componetsStyles.article}>
+            <Text style={[componetsStyles.boldTitle, {color: colors.mainText}]}>
+              {t('Description')}
+            </Text>
+            <Text style={[componetsStyles.article, {color: colors.mainText}]}>
               {details.description.substring(
                 1,
                 300 || details.description.length / 2,
@@ -191,16 +203,26 @@ const DestinationDetails = ({navigation, route}) => {
             </Text>
           </TouchableOpacity>
           <Overlay
-            overlayStyle={styles.overlayContainer}
+            overlayStyle={[
+              styles.overlayContainer,
+              {backgroundColor: colors.mainBackground},
+            ]}
             isVisible={overlayVisible}
             onBackdropPress={toggleOverlay}>
             <ScrollView>
               <View style={styles.overlayHeader}>
                 <View>
-                  <Text style={componetsStyles.bigTitle}>
+                  <Text
+                    style={[
+                      componetsStyles.bigTitle,
+                      {color: colors.mainText},
+                    ]}>
                     {t('Description')}
                   </Text>
-                  <Text style={componetsStyles.title}>{details.name}</Text>
+                  <Text
+                    style={[componetsStyles.title, {color: colors.mainText}]}>
+                    {details.name}
+                  </Text>
                 </View>
                 <TouchableOpacity onPress={toggleOverlay}>
                   <Icon
@@ -212,14 +234,19 @@ const DestinationDetails = ({navigation, route}) => {
                   />
                 </TouchableOpacity>
               </View>
-              <Text style={componetsStyles.article}>{details.description}</Text>
+              <Text style={[componetsStyles.article, {color: colors.mainText}]}>
+                {details.description}
+              </Text>
             </ScrollView>
           </Overlay>
 
           {/* Galllary */}
           <View style={styles.sectionContainer}>
             <View style={styles.galleryHeaderSection}>
-              <Text style={componetsStyles.boldTitle}>{t('Gallery')}</Text>
+              <Text
+                style={[componetsStyles.boldTitle, {color: colors.mainText}]}>
+                {t('Gallery')}
+              </Text>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('galleryScreen', {
@@ -267,7 +294,7 @@ const DestinationDetails = ({navigation, route}) => {
           {/* Reviews */}
 
           <View style={styles.sectionContainer}>
-            <Text style={componetsStyles.boldTitle}>
+            <Text style={[componetsStyles.boldTitle, {color: colors.mainText}]}>
               {t('Rating & Reviews')}
             </Text>
             {reviewsLoading ? (
@@ -277,8 +304,12 @@ const DestinationDetails = ({navigation, route}) => {
                 {reviews.count === 0 ? (
                   <View style={styles.emptyReviewsSection}>
                     <Image source={noReviews} style={styles.noReviewsImage} />
-                    <Text style={styles.noReviewTitle}>{t('No Reviews!')}</Text>
-                    <Text style={styles.noReviewDesc}>
+                    <Text
+                      style={[styles.noReviewTitle, {color: colors.mainText}]}>
+                      {t('No Reviews!')}
+                    </Text>
+                    <Text
+                      style={[styles.noReviewDesc, {color: colors.mainText}]}>
                       {t('Help the community and share your thoughts')}
                     </Text>
                   </View>
@@ -305,39 +336,62 @@ const DestinationDetails = ({navigation, route}) => {
           {/* Tickets */}
           {details.ticket_price && (
             <>
-              <Text style={componetsStyles.boldTitle}>
+              <Text
+                style={[componetsStyles.boldTitle, {color: colors.mainText}]}>
                 {t('Ticket Prices')}:
               </Text>
               {details.ticket_price.egyptions && (
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>{t('Egyptions')}: </Text>
-                  <Text style={componetsStyles.article}>
+                  <Text style={[styles.priceTitle, {color: colors.mainText}]}>
+                    {t('Egyptions')}:{' '}
+                  </Text>
+                  <Text
+                    style={[
+                      componetsStyles.article,
+                      {color: colors.secondText},
+                    ]}>
                     {details.ticket_price.egyptions} {t('EGP')}
                   </Text>
                 </View>
               )}
               {details.ticket_price.students && (
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>{t('Students')}: </Text>
-                  <Text style={componetsStyles.article}>
+                  <Text style={[styles.priceTitle, {color: colors.mainText}]}>
+                    {t('Students')}:{' '}
+                  </Text>
+                  <Text
+                    style={[
+                      componetsStyles.article,
+                      {color: colors.secondText},
+                    ]}>
                     {details.ticket_price.students} {t('EGP')}
                   </Text>
                 </View>
               )}
               {details.ticket_price.foreign && (
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>{t('Forigns')}: </Text>
-                  <Text style={componetsStyles.article}>
+                  <Text style={[styles.priceTitle, {color: colors.mainText}]}>
+                    {t('Forigns')}:{' '}
+                  </Text>
+                  <Text
+                    style={[
+                      componetsStyles.article,
+                      {color: colors.secondText},
+                    ]}>
                     {details.ticket_price.foreign} {t('EGP')}
                   </Text>
                 </View>
               )}
               {details.ticket_price.foreignStudents && (
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}>
+                  <Text style={[styles.priceTitle, {color: colors.mainText}]}>
                     {t('Forign Students')}:{' '}
                   </Text>
-                  <Text style={componetsStyles.article}>
+                  <Text
+                    style={[
+                      componetsStyles.article,
+                      {color: colors.secondText},
+                    ]}>
                     {details.ticket_price.foreignStudents} {t('EGP')}
                   </Text>
                 </View>
@@ -345,8 +399,16 @@ const DestinationDetails = ({navigation, route}) => {
 
               {details.ticket_price.caption && (
                 <View style={styles.ticketSection}>
-                  <Text style={styles.priceTitle}></Text>
-                  <Text style={componetsStyles.article}>
+                  <Text
+                    style={[
+                      styles.priceTitle,
+                      {color: colors.mainText},
+                    ]}></Text>
+                  <Text
+                    style={[
+                      componetsStyles.article,
+                      {color: colors.secondText},
+                    ]}>
                     {details.ticket_price.caption} {t('EGP')}
                   </Text>
                 </View>

@@ -1,35 +1,40 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FullWidthCard, OverviewCity } from '../../../components/cards';
-import { PHONE_HEIGHT, colors } from '../../../components/styles';
-import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {FullWidthCard, OverviewCity} from '../../../components/cards';
+import {PHONE_HEIGHT, colors} from '../../../components/styles';
+import React, {useEffect, useState} from 'react';
 
+import AppHeader from '../../../components/headers/AppHeader';
 import BackHeader from '../../../components/headers/BackHeader';
-import { fetchCites } from '../../../apis/cites';
-import { useTranslation } from 'react-i18next';
+import {fetchCites} from '../../../apis/cites';
+import {useTheme} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
-const ListCites = ({ route, navigation }) => {
-  const { t, i18n } = useTranslation();
+const ListCites = ({route, navigation}) => {
+  const {colors} = useTheme();
+  const {t, i18n} = useTranslation();
   const [destinations, setDestination] = useState([]);
-  const [loading, setLoading] = useState(true)
-
-
+  const [loading, setLoading] = useState(true);
 
   const listDestinations = async () => {
-    const response = await fetchCites(i18n.language)
-    setDestination(response)
-    setLoading(false)
-
-  }
+    const response = await fetchCites(i18n.language);
+    setDestination(response);
+    setLoading(false);
+  };
   useEffect(() => {
-    listDestinations()
-  }, [])
+    listDestinations();
+  }, []);
 
-
-
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <TouchableOpacity
       key={Math.random()}
-      onPress={() => navigation.navigate('cityDetails', { id: item.id })}>
+      onPress={() => navigation.navigate('cityDetails', {id: item.id})}>
       <OverviewCity
         name={item.city}
         attractionsNo={item.count_att}
@@ -37,47 +42,44 @@ const ListCites = ({ route, navigation }) => {
         image={item.poster}
       />
     </TouchableOpacity>
-
-  )
+  );
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.mainBackground,
+      flex: 1,
+      alignItems: 'center',
+    },
+    laoder: {
+      marginVertical: PHONE_HEIGHT * 0.3,
+    },
+    title: {
+      fontWeight: 'bold',
+      fontSize: 20,
+      marginHorizontal: '4%',
+      marginBottom: '2%',
+    },
+  });
 
   return (
     <View style={styles.container}>
-      <BackHeader title={t("Cities")} />
+      <AppHeader
+        middle={<Text style={{color: colors.mainText}}>{t('Cities')}</Text>}
+      />
 
-      {loading ? <ActivityIndicator color="#000" size="small" style={styles.laoder} /> :
-
-
+      {loading ? (
+        <ActivityIndicator color="#000" size="small" style={styles.laoder} />
+      ) : (
         <FlatList
           // contentContainerStyle={styles.container}
           data={destinations}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           initialNumToRender={12}
           numColumns={1}
-
         />
-
-
-      }
+      )}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.light,
-    flex: 1,
-    alignItems: 'center'
-
-  },
-  laoder: {
-    marginVertical: PHONE_HEIGHT * 0.3
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginHorizontal: '4%',
-    marginBottom: '2%'
-  }
-});
 export default ListCites;

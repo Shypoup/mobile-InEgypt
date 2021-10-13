@@ -1,12 +1,14 @@
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-import {PHONE_HEIGHT, PHONE_WIDTH, colors} from '../../styles';
+import {PHONE_HEIGHT, PHONE_WIDTH} from '../../styles';
 import React, {useEffect, useState} from 'react';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {fetchTemperature} from '../../../apis/wheather';
+import {useTheme} from '@react-navigation/native';
 
 export const OverviewCard = props => {
   const [temperature, setTemperatue] = useState(null);
+  const {colors} = useTheme();
   const styles = StyleSheet.create({
     container: {
       marginVertical: 10,
@@ -20,7 +22,7 @@ export const OverviewCard = props => {
       marginHorizontal: 2,
     },
     temprature: {
-      color: colors.light,
+      color: colors.mainText,
       fontSize: 18,
       fontWeight: '900',
       alignSelf: 'flex-end',
@@ -32,6 +34,7 @@ export const OverviewCard = props => {
       fontWeight: 'bold',
       marginHorizontal: 8,
       marginVertical: 4,
+      color: colors.mainText,
     },
     cityContainer: {
       flexDirection: 'row',

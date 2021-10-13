@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import {OverviewCard, OverviewCity} from '../../../components/cards';
-import {colors, componetsStyles} from '../../../components/styles';
 import {
   fetchAroundYou,
   fetchRecommendedAttractions,
@@ -22,12 +21,15 @@ import Geolocation from '@react-native-community/geolocation';
 import {Icon} from 'react-native-elements';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import React from 'react';
+import {componetsStyles} from '../../../components/styles';
 import styles from './styles';
 import {useEffect} from 'react';
 import {useState} from 'react';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const HomeScreen = ({navigation}) => {
+  const {colors} = useTheme();
   const {t, i18n} = useTranslation();
   const [attractions, setAttractions] = useState([]);
   const [spots, setSpots] = useState([]);
@@ -207,7 +209,10 @@ const HomeScreen = ({navigation}) => {
       return (
         <TouchableOpacity
           key={Math.random()}
-          style={styles.iconContainer}
+          style={[
+            styles.iconContainer,
+            {backgroundColor: colors.secondBackground},
+          ]}
           onPress={() =>
             navigation.navigate('listToCategory', {
               id: item.id,
@@ -215,7 +220,9 @@ const HomeScreen = ({navigation}) => {
             })
           }>
           <Image source={{uri: item.poster}} style={styles.categoryImage} />
-          <Text style={styles.iconText}>{item.title}</Text>
+          <Text style={[styles.iconText, {color: colors.mainText}]}>
+            {item.title}
+          </Text>
         </TouchableOpacity>
       );
     });
@@ -249,7 +256,10 @@ const HomeScreen = ({navigation}) => {
     return (
       <View style={styles.section} key={Math.random()}>
         <View style={styles.titleSection}>
-          <Text style={componetsStyles.title}> {props.title}</Text>
+          <Text style={[componetsStyles.title, {color: colors.mainText}]}>
+            {' '}
+            {props.title}
+          </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate(props.to || 'home')}>
             <Text style={styles.more}>{props.link}</Text>
@@ -264,11 +274,11 @@ const HomeScreen = ({navigation}) => {
     );
   };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.mainBackground}]}>
       {/* Header */}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Icon type="feather" name="menu" />
+          <Icon type="feather" name="menu" color={colors.mainText} />
         </TouchableOpacity>
 
         <Image
