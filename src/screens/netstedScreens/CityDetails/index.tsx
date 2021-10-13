@@ -7,53 +7,58 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Linecard, OverviewCard } from '../../../components/cards';
-import React, { useEffect, useState } from 'react';
-import { fetchCityAttractions, fetchCityDetails, fetchCitySpots } from '../../../apis/cites';
+import {Linecard, OverviewCard} from '../../../components/cards';
+import React, {useEffect, useState} from 'react';
+import {
+  fetchCityAttractions,
+  fetchCityDetails,
+  fetchCitySpots,
+} from '../../../apis/cites';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {
-  colors,
-} from '../../../components/styles';
+import {colors} from '../../../components/styles';
+import {fetchTemperature} from '../../../apis/wheather';
 import styles from './styles';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
-const CityDetails = ({ route, navigation }) => {
-  const { id } = route.params;
-  const { t, i18n } = useTranslation();
+const CityDetails = ({route, navigation}) => {
+  const {id} = route.params;
+  const {t, i18n} = useTranslation();
   const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [attractions, setAttractions] = useState(null);
   const [spots, setSpots] = useState(null);
   const [attractionsLoading, setAttractionsLoading] = useState(true);
   const [spotsLoading, setSpotsLoading] = useState(true);
-
+  const [temperature, setTemperatue] = useState(null);
+  const getTemprature = async (longitude, latitude) => {
+    const response = await fetchTemperature(longitude, latitude);
+    setTemperatue(response);
+  };
 
   const getCityDetails = async () => {
     const response = await fetchCityDetails(id, i18n.language);
     setDetails(response);
+    getTemprature(response.longitude, response.latitude);
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   const getCityAttractions = async () => {
     const response = await fetchCityAttractions(id, i18n.language);
     setAttractions(response);
 
-    setAttractionsLoading(false)
-  }
+    setAttractionsLoading(false);
+  };
   const getCitySpots = async () => {
     let spotsColumn = [];
     let spotsReshaped = [];
     const response = await fetchCitySpots(id, i18n.language);
     if (response != null) {
-
-
       let spotsOdd = response;
       spotsOdd.map((item, index) => {
-
         switch (index % 2) {
           case 0:
             spotsColumn.push(item);
@@ -67,20 +72,18 @@ const CityDetails = ({ route, navigation }) => {
             break;
         }
       });
-      setSpots(spotsReshaped)
+      setSpots(spotsReshaped);
     }
-    setSpotsLoading(false)
-
-
-  }
+    setSpotsLoading(false);
+  };
 
   useEffect(() => {
     getCityDetails();
     getCityAttractions();
-    getCitySpots()
-  }, [])
+    getCitySpots();
+  }, []);
   const renderAttractions = () => {
-    return attractions.map((item) => {
+    return attractions.map(item => {
       return (
         <TouchableOpacity
           key={item.id}
@@ -89,20 +92,21 @@ const CityDetails = ({ route, navigation }) => {
               item: item,
             })
           }>
-          <OverviewCard name={item.name} image={item.poster} city={item.category} wide={true} />
+          <OverviewCard
+            name={item.name}
+            image={item.poster}
+            city={item.category}
+            wide={true}
+          />
         </TouchableOpacity>
       );
     });
   };
 
-
   const renderSpots = () => {
-
-
     return spots.map((item, index) => {
       return (
         <View key={Math.random()}>
-
           <TouchableOpacity
             key={item[0].id}
             onPress={() =>
@@ -110,7 +114,11 @@ const CityDetails = ({ route, navigation }) => {
                 item: item[0],
               })
             }>
-            <Linecard name={item[0].name} image={item[0].poster} category={item[0].category} />
+            <Linecard
+              name={item[0].name}
+              image={item[0].poster}
+              category={item[0].category}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -120,31 +128,36 @@ const CityDetails = ({ route, navigation }) => {
                 item: item[1],
               })
             }>
-            <Linecard name={item[1].name} image={item[1].poster} category={item[1].category} />
+            <Linecard
+              name={item[1].name}
+              image={item[1].poster}
+              category={item[1].category}
+            />
           </TouchableOpacity>
-
-
-
         </View>
       );
     });
-
   };
   return (
     <ScrollView>
-      {loading ? <ActivityIndicator color={colors.mainColor} style={styles.loader} /> :
+      {loading ? (
+        <ActivityIndicator color={colors.mainColor} style={styles.loader} />
+      ) : (
         <>
           <ImageBackground
             source={{
-              uri: details.poster
-
+              uri: details.poster,
             }}
             style={styles.image}>
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.pop()}>
               <MaterialIcons
-                name={i18n.language === 'ar' ? 'keyboard-arrow-right' : 'keyboard-arrow-left'}
+                name={
+                  i18n.language === 'ar'
+                    ? 'keyboard-arrow-right'
+                    : 'keyboard-arrow-left'
+                }
                 size={35}
                 color={colors.light}
               />
@@ -154,14 +167,18 @@ const CityDetails = ({ route, navigation }) => {
             <View style={styles.contentAtImageContainer}>
               <View style={styles.cityNameContainer}>
                 <Text style={styles.cityName}>{details.city}</Text>
-                <TouchableOpacity style={styles.mapContainer}
-                  onPress={()=>
-                  
-                    Linking.openURL(`geo://?q=${details.latitude},${details.longitude}`)
-                  }
-                
-                >
-                  <MaterialIcons name="location-pin" size={34} color={colors.light} />
+                <TouchableOpacity
+                  style={styles.mapContainer}
+                  onPress={() =>
+                    Linking.openURL(
+                      `geo://?q=${details.latitude},${details.longitude}`,
+                    )
+                  }>
+                  <MaterialIcons
+                    name="location-pin"
+                    size={34}
+                    color={colors.light}
+                  />
                   <Text style={styles.mapText}>{t('Get Map')}</Text>
                 </TouchableOpacity>
               </View>
@@ -190,51 +207,53 @@ const CityDetails = ({ route, navigation }) => {
                     size={24}
                     color={colors.light}
                   />
-                  <Text style={styles.infoText}>19° C </Text>
+                  <Text style={styles.infoText}>{temperature}° C </Text>
                 </View>
               </View>
               <View style={styles.infoSection}>
                 <FontAwesome name="bed" size={18} color={colors.light} />
-                <Text style={styles.infoText}>
-                  {details.residency}
-                </Text>
+                <Text style={styles.infoText}>{details.residency}</Text>
               </View>
             </View>
           </ImageBackground>
 
           <View style={styles.whiteContainer}>
             <Text style={styles.title}>{t('Overview')}</Text>
-            <Text style={styles.overViewText}>
-              {details.overview}
-            </Text>
+            <Text style={styles.overViewText}>{details.overview}</Text>
 
             <View style={styles.destinationHeader}>
               <Text style={styles.title}>{t('Destinations')}</Text>
 
-              <TouchableOpacity onPress={() => navigation.navigate('destinations', { id, city: details.city })}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('destinations', {id, city: details.city})
+                }>
                 <Text style={styles.seeAll}>{t('See All')}</Text>
               </TouchableOpacity>
             </View>
 
-            {attractionsLoading ? <ActivityIndicator color={colors.mainColor} /> :
+            {attractionsLoading ? (
+              <ActivityIndicator color={colors.mainColor} />
+            ) : (
               <>
-                {attractions === null ? null :
+                {attractions === null ? null : (
                   <>
                     <Text style={styles.secondTitle}>{t('Attractions')}</Text>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <ScrollView
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}>
                       {renderAttractions()}
                     </ScrollView>
                   </>
-
-                }
+                )}
               </>
-            }
+            )}
 
-
-            {spotsLoading ? <ActivityIndicator color={colors.mainColor} /> :
+            {spotsLoading ? (
+              <ActivityIndicator color={colors.mainColor} />
+            ) : (
               <>
-
-                {spots === null ? null :
+                {spots === null ? null : (
                   <>
                     <Text style={styles.secondTitle}>{t('Spots')}</Text>
                     <ScrollView
@@ -242,15 +261,14 @@ const CityDetails = ({ route, navigation }) => {
                       showsHorizontalScrollIndicator={false}
                       style={styles.spotsConatiner}>
                       {renderSpots()}
-
                     </ScrollView>
                   </>
-                }
+                )}
               </>
-            }
+            )}
           </View>
         </>
-      }
+      )}
     </ScrollView>
   );
 };

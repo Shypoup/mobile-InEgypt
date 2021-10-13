@@ -1,14 +1,22 @@
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
-import { PHONE_HEIGHT, PHONE_WIDTH, colors } from '../../styles';
-import React, { useEffect, useState } from 'react';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {PHONE_HEIGHT, PHONE_WIDTH, colors} from '../../styles';
+import React, {useEffect, useState} from 'react';
 
-import { Icon } from 'react-native-elements'
+import {Icon} from 'react-native-elements';
+import {fetchTemperature} from '../../../apis/wheather';
 
-export const FullWidthCard = (props) => {
+export const FullWidthCard = props => {
   const [width, setWidth] = useState(PHONE_WIDTH * 0.95);
   const [hight, setHight] = useState(PHONE_HEIGHT * 0.25);
   const [font, setFont] = useState(18);
-
+  const [temperature, setTemperatue] = useState(null);
+  useEffect(() => {
+    getTemprature();
+  }, []);
+  const getTemprature = async () => {
+    const response = await fetchTemperature(props.longitude, props.latitude);
+    setTemperatue(response);
+  };
   useEffect(() => {
     if (props.view === 1) {
       setWidth(PHONE_WIDTH * 0.95);
@@ -30,7 +38,6 @@ export const FullWidthCard = (props) => {
       marginVertical: font * 0.7,
       marginHorizontal: font * 0.4,
       width: width,
-
     },
     image: {
       borderRadius: 50,
@@ -43,18 +50,20 @@ export const FullWidthCard = (props) => {
       fontWeight: '900',
       alignSelf: 'flex-end',
       margin: 8,
+      backgroundColor: 'rgba(0,0,0,0.04)',
+      padding: 5,
+      borderRadius: 10,
     },
     name: {
       fontSize: font,
       fontWeight: 'bold',
       marginHorizontal: font * 0.5,
       marginVertical: font * 0.25,
-
     },
     kindContainer: {
       flexDirection: 'row',
       marginHorizontal: 8,
-      alignItems: 'center'
+      alignItems: 'center',
     },
     kind: {
       color: colors.gray,
@@ -68,17 +77,26 @@ export const FullWidthCard = (props) => {
         source={{
           uri: props.image,
         }}
-        imageStyle={{ borderRadius: 10 }}
+        imageStyle={{borderRadius: 10}}
         style={styles.image}>
-        <Text style={styles.temprature}>{props.temprature}° C</Text>
+        {temperature && <Text style={styles.temprature}>{temperature}° C</Text>}
       </ImageBackground>
-      <Text style={styles.name} numberOfLines={2}>{props.name}</Text>
+      <Text style={styles.name} numberOfLines={2}>
+        {props.name}
+      </Text>
       <View style={styles.kindContainer}>
-        {props.category != null ? null : <Icon name="location-arrow" type="font-awesome" size={font} color={colors.gray} />
-        }
-        <Text style={styles.kind}>{props.category != null ? props.category : props.city}</Text>
+        {props.category != null ? null : (
+          <Icon
+            name="location-arrow"
+            type="font-awesome"
+            size={font}
+            color={colors.gray}
+          />
+        )}
+        <Text style={styles.kind}>
+          {props.category != null ? props.category : props.city}
+        </Text>
       </View>
     </View>
   );
 };
-
