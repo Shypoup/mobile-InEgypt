@@ -4,10 +4,13 @@ import React, {useEffect, useState} from 'react';
 import {FullWidthCard} from '../../../components/cards';
 import {colors} from '../../../components/styles';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 const Destinations = props => {
   const [view, setView] = useState(props.view);
   const navigation = useNavigation();
+
+  const {t} = useTranslation();
 
   useEffect(() => {
     setView(props.view);
@@ -37,7 +40,10 @@ const Destinations = props => {
   return (
     <>
       {props.city === null ? null : (
-        <Text style={styles.cityName}>In {props.city}</Text>
+        <Text style={styles.cityName}>
+          {t('In')}
+          {props.city}
+        </Text>
       )}
 
       <FlatList

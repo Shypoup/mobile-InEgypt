@@ -87,7 +87,7 @@ export const FullWidthCard = props => {
       <View style={styles.kindContainer}>
         {props.category != null ? null : (
           <Icon
-            name="location-arrow"
+            name="map-marker"
             type="font-awesome"
             size={font}
             color={colors.gray}

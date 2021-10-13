@@ -130,7 +130,7 @@ const HomeScreen = ({navigation}) => {
   }, []);
   useEffect(() => {
     listArround();
-  }, [currentLongitude, currentLatitude]);
+  }, [currentLatitude, currentLongitude]);
 
   // Render attractions
   const renderAttractionsOfMonth = () => {
@@ -144,6 +144,7 @@ const HomeScreen = ({navigation}) => {
             })
           }>
           <OverviewCard
+            key={Math.random()}
             name={item.name}
             image={item.poster}
             city={item.city}
@@ -167,6 +168,7 @@ const HomeScreen = ({navigation}) => {
             })
           }>
           <OverviewCard
+            key={Math.random()}
             name={item.name}
             image={item.poster}
             city={item.city}
@@ -189,6 +191,7 @@ const HomeScreen = ({navigation}) => {
             })
           }>
           <OverviewCard
+            key={Math.random()}
             name={item.name}
             image={item.poster}
             city={t('about') + ' ' + Math.floor(+item.distance) + ' ' + t('km')}
@@ -230,6 +233,8 @@ const HomeScreen = ({navigation}) => {
             })
           }>
           <OverviewCity
+            id={item.id}
+            key={Math.random()}
             name={item.city}
             attractionsNo={item.count_att}
             spotsNo={item.count_spot}
@@ -242,7 +247,7 @@ const HomeScreen = ({navigation}) => {
 
   const HorizontalSection = props => {
     return (
-      <View style={styles.section}>
+      <View style={styles.section} key={Math.random()}>
         <View style={styles.titleSection}>
           <Text style={componetsStyles.title}> {props.title}</Text>
           <TouchableOpacity

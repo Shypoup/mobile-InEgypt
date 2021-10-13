@@ -66,7 +66,7 @@ export const OverviewCard = props => {
       </Text>
       <View style={styles.cityContainer}>
         {props.wide ? null : (
-          <FontAwesome name="location-arrow" size={15} color={colors.gray} />
+          <FontAwesome name="map-marker" size={15} color={colors.gray} />
         )}
         <Text style={styles.city}>{props.city}</Text>
       </View>

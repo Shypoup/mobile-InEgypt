@@ -1,104 +1,89 @@
-import { ActivityIndicator, Dimensions } from 'react-native';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
-import { PHONE_HEIGHT, PHONE_WIDTH, colors } from '../styles';
-import React, { useState } from 'react';
+import {ActivityIndicator, Dimensions} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {PHONE_HEIGHT, PHONE_WIDTH, colors} from '../styles';
+import React, {useState} from 'react';
 
-import { SwiperFlatList } from 'react-native-swiper-flatlist';
-import { fetchAds } from '../../apis/home';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import {SwiperFlatList} from 'react-native-swiper-flatlist';
+import {fetchAds} from '../../apis/home';
+import {useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 
 const AutoCarousel = () => {
-  const { i18n } = useTranslation();
-  const [loading, setLoading] = useState(true)
-  const [ads, setAds] = useState([])
+  const {i18n} = useTranslation();
+  const [loading, setLoading] = useState(true);
+  const [ads, setAds] = useState([]);
   const [width, setWidth] = useState(PHONE_WIDTH);
 
   const listAds = async () => {
-
-    const response = await fetchAds(i18n.language)
-    setAds(response)
-    setLoading(false)
-
-  }
+    const response = await fetchAds(i18n.language);
+    setAds(response);
+    setLoading(false);
+  };
   useEffect(() => {
-    listAds()
-  }, [])
+    listAds();
+  }, []);
 
   const _onLayout = event => {
-
-    setWidth(event.nativeEvent.layout.width)
-
+    setWidth(event.nativeEvent.layout.width);
   };
   const renderAds = () => {
-
-    return ads.map((item) => {
+    return ads.map(item => {
       return (
-        // <View style={{ width: width, height: 225 }}>
-        <ImageBackground
-
-          source={{
-            uri: item.poster,
-
-          }}
-          style={styles.itemContainer}
-          imageStyle={styles.image}
-
-        >
-          <Text style={styles.label}>{item.content}</Text>
-        </ImageBackground>
-        // </View>
-      )
-    })
-  }
+        <View style={styles.child} key={Math.random() + item.poster}>
+          <ImageBackground
+            source={{uri: item.poster}}
+            style={styles.carsouelImage}>
+            <Text style={styles.label}>{item.content}</Text>
+          </ImageBackground>
+        </View>
+      );
+    });
+  };
 
   const styles = StyleSheet.create({
-    itemContainer: {
-      // flex: 1,
-      // flexDirection: 'row',
-      width: width,
-      height: 225,
-      alignItems: 'flex-start',
-      justifyContent: 'flex-end',
-      backgroundColor: colors.secondColor,
+    carsouelContainer: {
+      height: PHONE_HEIGHT * 0.3,
     },
-    image: { height: '100%', width: '100%', justifyContent: 'flex-end' },
+    child: {width: PHONE_WIDTH, justifyContent: 'center'},
+
+    carsouelImage: {
+      width: '100%',
+      height: '100%',
+      justifyContent: 'flex-end',
+    },
+
     label: {
       backgroundColor: colors.transparentWhite,
       fontSize: 16,
       fontWeight: 'bold',
       paddingHorizontal: 10,
-      paddingVertical: 5
+      paddingVertical: 5,
+      width: '50%',
+      marginHorizontal: 10,
+    },
 
-    },
-    paginationItem: {
-      width: PHONE_WIDTH * 0.02,
-      height: PHONE_WIDTH * 0.02,
-      marginHorizontal: 2
-    },
     loader: {
-      marginVertical: PHONE_HEIGHT * 0.2
-    }
+      marginVertical: PHONE_HEIGHT * 0.2,
+    },
   });
 
   return (
-    <View onLayout={_onLayout} >
-      <SwiperFlatList autoplay autoplayDelay={2} autoplayLoop index={0}
-        paginationActiveColor='#303c64' paginationDefaultColor={colors.gray}
-
-      >
-        {loading ? <ActivityIndicator color={colors.mainColor} size="small" style={styles.loader} /> :
-          // <View style={{ width: width }}>
-          <>
+    <View>
+      <View style={styles.carsouelContainer}>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={colors.mainColor}
+            style={styles.loader}
+          />
+        ) : (
+          <SwiperFlatList autoplay autoplayDelay={3} autoplayLoop index={0}>
             {renderAds()}
-          </>
-          // </View>
-        }
-
-      </SwiperFlatList>
+          </SwiperFlatList>
+        )}
+      </View>
     </View>
   );
 };
-
 
 export default AutoCarousel;

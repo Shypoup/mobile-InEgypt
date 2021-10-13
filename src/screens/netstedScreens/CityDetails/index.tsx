@@ -89,7 +89,7 @@ const CityDetails = ({route, navigation}) => {
           key={item.id}
           onPress={() =>
             navigation.navigate('destinationDetails', {
-              item: item,
+              id: item.id,
             })
           }>
           <OverviewCard
@@ -97,6 +97,8 @@ const CityDetails = ({route, navigation}) => {
             image={item.poster}
             city={item.category}
             wide={true}
+            longitude={item.longitude}
+            latitude={item.latitude}
           />
         </TouchableOpacity>
       );
@@ -111,7 +113,7 @@ const CityDetails = ({route, navigation}) => {
             key={item[0].id}
             onPress={() =>
               navigation.navigate('destinationDetails', {
-                item: item[0],
+                id: item[0].id,
               })
             }>
             <Linecard

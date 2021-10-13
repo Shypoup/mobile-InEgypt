@@ -5,37 +5,44 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PHONE_HEIGHT, PHONE_WIDTH, colors } from '../../styles';
+import {PHONE_HEIGHT, PHONE_WIDTH, colors} from '../../styles';
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-export const OverviewCity = (props) => {
+export const OverviewCity = props => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-
       <ImageBackground
         source={{
-          uri:
-            props.image
+          uri: props.image,
         }}
         imageStyle={{
           borderRadius: 12,
         }}
         style={styles.image}>
         <View style={styles.overlay}>
-          <FontAwesome
-            name="location-arrow"
-            color={colors.light}
-            style={styles.go}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('destinations', {
+                id: props.id,
+                city: props.name,
+              })
+            }>
+            <FontAwesome5
+              name="search-location"
+              color={colors.light}
+              style={styles.go}
+            />
+          </TouchableOpacity>
           <Text style={styles.name}>{props.name}</Text>
-          <Text style={styles.description}>{props.attractionsNo} attraction, {props.spotsNo} spots</Text>
+          <Text style={styles.description}>
+            {props.attractionsNo} attraction, {props.spotsNo} spots
+          </Text>
         </View>
       </ImageBackground>
-
     </View>
   );
 };
@@ -78,4 +85,3 @@ const styles = StyleSheet.create({
     color: colors.light,
   },
 });
-
