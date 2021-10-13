@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     cityNameContainer: {
-        marginTop: PHONE_HEIGHT * 0.62,
+        marginTop: PHONE_HEIGHT * 0.67,
 
         flexDirection: 'row',
         justifyContent: 'space-between',
         borderBottomColor: colors.light,
         borderBottomWidth: 0.6,
-        paddingBottom: 50,
+        paddingBottom: 20,
     },
     cityName: {
         fontSize: 35,
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     },
     title: {
         ...componetsStyles.bigTitle,
-        marginHorizontal: '5%',
-        // marginTop: '2%'
+        marginHorizontal: '7%',
+        marginTop: '3%'
     },
     secondTitle: {
         ...componetsStyles.secondTitle,
-        marginHorizontal: '5%',
+        marginHorizontal: '7%',
         marginTop: '2%'
     },
 

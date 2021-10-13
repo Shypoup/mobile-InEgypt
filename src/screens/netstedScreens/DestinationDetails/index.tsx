@@ -299,7 +299,7 @@ const DestinationDetails = ({navigation, route}) => {
                 name: details.name,
               })
             }>
-            <Text style={styles.addReviewButtonText}>{t('Add a review')}</Text>
+            <Text style={styles.addReviewButtonText}>{t('Add a Review')}</Text>
           </TouchableOpacity>
 
           {/* Tickets */}

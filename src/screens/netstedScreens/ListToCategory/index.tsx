@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.light,
     flex: 1,
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   laoder: {
     marginVertical: PHONE_HEIGHT * 0.3,
@@ -83,8 +85,9 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 20,
-    marginHorizontal: '4%',
+    marginHorizontal: '5%',
     marginBottom: '2%',
+    alignSelf: 'flex-start',
   },
 });
 export default ListToCategory;
