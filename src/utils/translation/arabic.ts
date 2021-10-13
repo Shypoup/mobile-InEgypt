@@ -14,7 +14,7 @@ const ar = {
     "Attraction": "معلم",
     "Spot": "متنزه",
     "No Destinations Around You!": "لا يوجد اماكن حولك!",
-
+    'showOnMap':'عرض على الخريطة',
     // Menu Localization
     "Destinations": "وجهات",
     "Categories": "فئات",

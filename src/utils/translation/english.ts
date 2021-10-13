@@ -40,6 +40,7 @@ const en = {
     "Ticket Prices": "Ticket Prices",
     "ATTRACTION": "ATTRACTION",
     "SPOT": "SPOT",
+    'showOnMap':'Show on map',
 
     // Map Alert
     "Choose Maps": "Choose Maps",
