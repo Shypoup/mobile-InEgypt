@@ -2,19 +2,21 @@ import 'react-native-gesture-handler';
 
 import * as React from 'react';
 
+import {Appearance, StatusBar} from 'react-native';
 import {DarkTheme, DefaultTheme} from '@react-navigation/native';
 import {colors, darkColors} from './src/components/styles';
 
 import Drawernavigation from './src/navigaitons/DrawerNavigation';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
-import {StatusBar} from 'react-native';
-import {useColorScheme} from 'react-native';
 import {useEffect} from 'react';
 
+const colorScheme = Appearance.getColorScheme();
 export const ThemeContext = React.createContext();
 const App = () => {
-  const [theme, setTheme] = React.useState('Dark');
+  const [theme, setTheme] = React.useState(
+    colorScheme === 'dark' ? 'Dark' : 'Light',
+  );
 
   const themeData = {theme, setTheme};
   useEffect(() => {

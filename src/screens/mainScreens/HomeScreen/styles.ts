@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: PHONE_WIDTH * 0.06,
         paddingTop: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        
     },
     appIcon: {
         width: 50,

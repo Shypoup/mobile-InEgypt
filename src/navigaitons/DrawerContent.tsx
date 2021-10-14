@@ -79,7 +79,11 @@ const DrawerContent = props => {
       style={[styles.container, {backgroundColor: colors.mainBackground}]}>
       <View style={styles.header}>
         <Image
-          source={require('../assets/logoBlack.png')}
+          source={
+            theme === 'Dark'
+              ? require('../assets/logo.png')
+              : require('../assets/logoBlack.png')
+          }
           style={styles.appIcon}
         />
       </View>

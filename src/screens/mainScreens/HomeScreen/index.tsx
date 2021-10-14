@@ -21,6 +21,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {Icon} from 'react-native-elements';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import React from 'react';
+import {ThemeContext} from '../../../../App';
 import {componetsStyles} from '../../../components/styles';
 import styles from './styles';
 import {useEffect} from 'react';
@@ -44,6 +45,7 @@ const HomeScreen = ({navigation}) => {
   const [citesLoading, setCitesLoading] = useState(true);
   const [currentLongitude, setCurrentLongitude] = useState('');
   const [currentLatitude, setCurrentLatitude] = useState('');
+  const {setTheme, theme} = React.useContext(ThemeContext);
 
   async function requestLocationPermission() {
     const granted = await PermissionsAndroid.request(
@@ -281,8 +283,16 @@ const HomeScreen = ({navigation}) => {
           <Icon type="feather" name="menu" color={colors.mainText} />
         </TouchableOpacity>
 
-        <Image
+        {/* <Image
           source={require('../../../assets/logoBlack.png')}
+          style={styles.appIcon}
+        /> */}
+        <Image
+          source={
+            theme === 'Dark'
+              ? require('../../../assets/logo.png')
+              : require('../../../assets/logoBlack.png')
+          }
           style={styles.appIcon}
         />
 
@@ -346,7 +356,7 @@ const HomeScreen = ({navigation}) => {
               source={require('../../../assets/noAround.png')}
               style={styles.noArroundImage}
             />
-            <Text style={styles.noArroundText}>
+            <Text style={[styles.noArroundText, {color: colors.mainText}]}>
               {t('No Destinations Around You!')}
             </Text>
           </>
