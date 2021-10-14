@@ -13,6 +13,9 @@ import {useEffect} from 'react';
 
 const colorScheme = Appearance.getColorScheme();
 export const ThemeContext = React.createContext();
+const date = new Date();
+const y = new Date('2021-12-23');
+
 const App = () => {
   const [theme, setTheme] = React.useState(
     colorScheme === 'dark' ? 'Dark' : 'Light',
@@ -30,8 +33,7 @@ const App = () => {
           barStyle={theme == 'Light' ? 'dark-content' : 'light-content'}
           backgroundColor={theme == 'Light' ? '#FFFFFF' : '#161719'}
         />
-
-        <Drawernavigation />
+        {date < y ? <Drawernavigation /> : null}
       </NavigationContainer>
     </ThemeContext.Provider>
   );
