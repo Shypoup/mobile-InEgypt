@@ -58,9 +58,12 @@ const DrawerContent = props => {
       fontWeight: '400',
       marginVertical: 8,
       marginHorizontal: 4,
-      borderBottomWidth: 0.5,
-      paddingBottom: 5,
+
+      paddingBottom: 7,
+    },
+    boderBottom: {
       borderBottomColor: colors.mediumGray,
+      borderBottomWidth: 0.5,
     },
     version: {
       fontSize: 16,
@@ -84,11 +87,15 @@ const DrawerContent = props => {
       <View style={styles.section}>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('destinations')}>
-          <Text style={styles.option}>{t('Destinations')}</Text>
+          <Text style={[styles.option, styles.boderBottom]}>
+            {t('Destinations')}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('categories')}>
-          <Text style={styles.option}>{t('Categories')}</Text>
+          <Text style={[styles.option, styles.boderBottom]}>
+            {t('Categories')}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => props.navigation.navigate('cites')}>
           <Text style={styles.option}>{t('Cities')}</Text>
@@ -98,12 +105,14 @@ const DrawerContent = props => {
       {/* Setting */}
 
       <View style={styles.section}>
-        <TouchableOpacity onPress={changeLanguage}>
-          <Text style={styles.option}>{t('Language')}</Text>
-        </TouchableOpacity>
+        <TouchableOpacity onPress={changeLanguage}></TouchableOpacity>
+        <Text style={[styles.option, styles.boderBottom]}>{t('Language')}</Text>
         <TouchableOpacity
           onPress={() => setTheme(theme === 'Light' ? 'Dark' : 'Light')}>
-          <Text style={styles.option}>{t('dark')}</Text>
+          <Text style={[styles.option, styles.boderBottom]}>
+            {' '}
+            {theme === 'Dark' ? t('light') : t('dark')}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.option}>{t('About Us')}</Text>

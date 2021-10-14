@@ -4,7 +4,8 @@ import { colors } from "../../../components/styles";
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.light,
-        marginStart: '3%'
+        paddingStart: '3%',
+        flex:1
 
 
     },

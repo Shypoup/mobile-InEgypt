@@ -54,7 +54,9 @@ const AddReview = ({navigation, route}) => {
           <Text style={styles.cancelText}>{t('Cancel')}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.headerText}>{t('ADD A REVIEW')}</Text>
+        <Text style={[styles.headerText, {color: colors.mainText}]}>
+          {t('ADD A REVIEW')}
+        </Text>
 
         <TouchableOpacity onPress={addReview}>
           <Text style={styles.cancelText}>{t('Send')}</Text>
@@ -73,8 +75,13 @@ const AddReview = ({navigation, route}) => {
       </ImageBackground>
 
       {/* Rate */}
-      <View style={styles.rate}>
-        <Rating startingValue={rate} onFinishRating={setRate} imageSize={30} />
+      <View style={[styles.rate, {backgroundColor: colors.mainBackground}]}>
+        <Rating
+          startingValue={rate}
+          onFinishRating={setRate}
+          imageSize={30}
+          tintColor={colors.secondBackground}
+        />
         <Text style={styles.tapRate}>{t('Tap a Star to Rate')}</Text>
       </View>
 
@@ -87,8 +94,11 @@ const AddReview = ({navigation, route}) => {
       <Overlay
         isVisible={modalShow}
         onBackdropPress={() => setModalShow(!modalShow)}
-        overlayStyle={styles.overlayContainer}>
-        <Text>{message}</Text>
+        overlayStyle={[
+          styles.overlayContainer,
+          {backgroundColor: colors.secondBackground},
+        ]}>
+        <Text style={{color: colors.mainText}}>{message}</Text>
         <Button
           title={t('Done')}
           onPress={() => setModalShow(false)}

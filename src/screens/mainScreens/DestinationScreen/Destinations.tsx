@@ -42,7 +42,7 @@ const Destinations = props => {
   return (
     <>
       {props.city === null ? null : (
-        <Text style={styles.cityName}>
+        <Text style={[styles.cityName, {color: colors.mainText}]}>
           {t('In')}
           {props.city}
         </Text>

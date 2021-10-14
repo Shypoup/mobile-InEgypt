@@ -86,7 +86,7 @@ const lightTheme = {
 
     //background
     mainBackground: '#FFFFFF',
-    secondBackground: '#788087',
+    secondBackground: 'rgba(255,255,255,0.65)',
 
     //icons
     mainIcon: '#000',

@@ -21,9 +21,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {colors} from '../../../components/styles';
 import {fetchTemperature} from '../../../apis/wheather';
 import styles from './styles';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const CityDetails = ({route, navigation}) => {
+  const {colors} = useTheme();
   const {id} = route.params;
   const {t, i18n} = useTranslation();
   const [details, setDetails] = useState(null);
@@ -141,7 +143,7 @@ const CityDetails = ({route, navigation}) => {
     });
   };
   return (
-    <ScrollView>
+    <ScrollView style={{flex: 1, backgroundColor: colors.mainBackground}}>
       {loading ? (
         <ActivityIndicator color={colors.mainColor} style={styles.loader} />
       ) : (
@@ -219,26 +221,40 @@ const CityDetails = ({route, navigation}) => {
             </View>
           </ImageBackground>
 
-          <View style={styles.whiteContainer}>
-            <Text style={styles.title}>{t('Overview')}</Text>
-            <Text style={styles.overViewText}>{details.overview}</Text>
+          <View
+            style={[
+              styles.whiteContainer,
+              {backgroundColor: colors.mainBackground},
+            ]}>
+            <Text style={[styles.title, {color: colors.mainText}]}>
+              {t('Overview')}
+            </Text>
+            <Text style={[styles.overViewText, {color: colors.mainText}]}>
+              {details.overview}
+            </Text>
+            {(attractions || spots) && (
+              <View style={styles.destinationHeader}>
+                <Text style={[styles.title, {color: colors.mainText}]}>
+                  {t('Destinations')}
+                </Text>
 
-            <View style={styles.destinationHeader}>
-              <Text style={styles.title}>{t('Destinations')}</Text>
-
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('destinations', {id, city: details.city})
-                }>
-                <Text style={styles.seeAll}>{t('See All')}</Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('destinations', {
+                      id,
+                      city: details.city,
+                    })
+                  }>
+                  <Text style={styles.seeAll}>{t('See All')}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
             {attractionsLoading ? (
               <ActivityIndicator color={colors.mainColor} />
             ) : (
               <>
-                {attractions === null ? null : (
+                {attractions && (
                   <>
                     <Text style={styles.secondTitle}>{t('Attractions')}</Text>
                     <ScrollView

@@ -7,6 +7,8 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: PHONE_HEIGHT,
+        flex: 1,
+        marginTop:30
     },
     backButton: {
         flexDirection: 'row',
@@ -21,7 +23,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     cityNameContainer: {
-        marginTop: PHONE_HEIGHT * 0.67,
+        marginTop: PHONE_HEIGHT * 0.7,
 
         flexDirection: 'row',
         justifyContent: 'space-between',

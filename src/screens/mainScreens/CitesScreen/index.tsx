@@ -34,8 +34,14 @@ const ListCites = ({route, navigation}) => {
   const renderItem = ({item}) => (
     <TouchableOpacity
       key={Math.random()}
-      onPress={() => navigation.navigate('cityDetails', {id: item.id})}>
+      onPress={() =>
+        navigation.navigate('cityDetails', {
+          id: item.id,
+        })
+      }>
       <OverviewCity
+        key={Math.random()}
+        id={item.id}
         name={item.city}
         attractionsNo={item.count_att}
         spotsNo={item.count_spot}
@@ -47,7 +53,6 @@ const ListCites = ({route, navigation}) => {
     container: {
       backgroundColor: colors.mainBackground,
       flex: 1,
-      alignItems: 'center',
     },
     laoder: {
       marginVertical: PHONE_HEIGHT * 0.3,
@@ -70,7 +75,11 @@ const ListCites = ({route, navigation}) => {
         <ActivityIndicator color="#000" size="small" style={styles.laoder} />
       ) : (
         <FlatList
-          // contentContainerStyle={styles.container}
+          contentContainerStyle={{
+            alignSelf: 'center',
+            alignItems: 'center',
+            marginEnd: '2%',
+          }}
           data={destinations}
           renderItem={renderItem}
           keyExtractor={item => item.id}
