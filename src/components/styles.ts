@@ -4,7 +4,7 @@ export const PHONE_WIDTH = Dimensions.get('window').width;
 export const PHONE_HEIGHT = Dimensions.get('window').height;
 
 export const colors = {
-  mainColor: '#2c87f0',
+  mainColor: '#3CB7E6',
   secondColor: '#f3ebe3',
   gray: '#788087',
   light: '#FFFFFF',
@@ -17,7 +17,7 @@ export const colors = {
   //Text
   mainText: '#000',
   secondText: '#788087',
-  linkText: '#2c87f0',
+  linkText: '#3CB7E6',
 
   //background
   mainBackground: '#fff',
@@ -25,12 +25,12 @@ export const colors = {
 
   //icons
   mainIcon: '#000',
-  secondIcon: '#2c87f0',
+  secondIcon: '#3CB7E6',
 };
 
 export const darkColors = {
   
-  mainColor: '#2c87f0',
+  mainColor: '#3CB7E6',
   secondColor: '#f3ebe3',
   gray: '#788087',
   light: '#FFFFFF',
@@ -43,7 +43,7 @@ export const darkColors = {
   //Text
   mainText: '#000',
   secondText: '#788087',
-  linkText: '#2c87f0',
+  linkText: '#3CB7E6',
 
   //background
   mainBackground: '#000000',
@@ -51,7 +51,7 @@ export const darkColors = {
 
   //icons
   mainIcon: '#000',
-  secondIcon: '#2c87f0',
+  secondIcon: '#3CB7E6',
   
 };
 
